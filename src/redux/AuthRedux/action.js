@@ -18,7 +18,8 @@ const userLoginSuccess = (response) =>
 
 const userLoginFailure = (error) => makeActionCreator(LoginTypes.USER_LOGIN_FAILURE, { error });
 
-const userSignUp = (data) => makeActionCreator(SignUpTypes.USER_SIGNUP, { data });
+const userSignUp = (data, onSuccess) =>
+  makeActionCreator(SignUpTypes.USER_SIGNUP, { data, onSuccess });
 
 const userSignUpSuccess = (response) =>
   makeActionCreator(SignUpTypes.USER_SIGNUP_SUCCESS, { response });

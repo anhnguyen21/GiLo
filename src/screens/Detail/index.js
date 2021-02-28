@@ -16,14 +16,27 @@ import shop from '../../assests/img/slide1.jpg';
 import ItemCard from '../../components/ItemCard';
 import { pushScreen } from '../../navigation/pushScreen';
 import { useSelector, useDispatch } from 'react-redux';
+import ReviewActions from '../../redux/ReviewRedux/action';
+import CartAction from '../../redux/CartRedux/action';
 
 const index = (props) => {
   const prduct = useSelector((state) => state.detail.responseProductDetail);
+  const dispatch = useDispatch();
   const backHome = () => {
     Navigation.pop(props.componentId);
   };
-  const onViewReview = () => {
+  const onViewReview = (id) => {
+    dispatch(ReviewActions.getReview(id, onSuccess));
+  };
+  const onSuccess = () => {
     pushScreen(props.componentId, 'Review', '', '', false, 'chevron-left');
+  };
+  const AddToCart = (id) => {
+    const dataLogin = {
+      id_user: 2,
+      id_pro: id,
+    };
+    dispatch(CartAction.getAddCart(dataLogin));
   };
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
@@ -69,7 +82,7 @@ const index = (props) => {
             <Icon style={styles.iconRating} name="star" color="#FFD700" />
             <Icon style={styles.iconRating} name="star" color="#FFD700" />
           </View>
-          <TouchableOpacity style={styles.btnViewRating} onPress={() => onViewReview()}>
+          <TouchableOpacity style={styles.btnViewRating} onPress={() => onViewReview(prduct.id)}>
             <Text style={styles.txtViewRating}>xem chi tiết</Text>
           </TouchableOpacity>
         </View>
@@ -90,7 +103,7 @@ const index = (props) => {
             <ItemCard />
           </ScrollView>
         </View>
-        <TouchableOpacity style={styles.btnBuy}>
+        <TouchableOpacity style={styles.btnBuy} onPress={() => AddToCart(prduct.id)}>
           <Text style={styles.txtBuy}>Mua hàng</Text>
         </TouchableOpacity>
       </View>

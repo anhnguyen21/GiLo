@@ -4,8 +4,11 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import hoacuc from '../../assests/img/hoacuc.png';
 import { Navigation } from 'react-native-navigation';
 import ItemCart from '../../components/ItemCart';
+import { useDispatch, useSelector } from 'react-redux';
 
 const index = (props) => {
+  const dataCart = useSelector((state) => state.cart.responseCart);
+  const dispatch = useDispatch();
   const backHome = () => {
     Navigation.pop(props.componentId);
   };
@@ -15,9 +18,17 @@ const index = (props) => {
         <Icon style={styles.iconBack} name="chevron-left" size={18} />
         <Text style={styles.txtTitle}>Giỏ hàng</Text>
       </TouchableOpacity>
-      <ItemCart />
-      <ItemCart />
-      <ItemCart />
+      {dataCart.map((item, index) => {
+        return (
+          <ItemCart
+            key={index}
+            name={item.name}
+            price={item.price}
+            quantity={item.quantityCart}
+            img={item.img}
+          />
+        );
+      })}
       <View style={styles.layoutTotal}>
         <View style={styles.layoutDiscount}>
           <TextInput style={styles.ipDiscount} placeholder="Nhập mã giảm giá" />

@@ -27,6 +27,7 @@ import ItemCard from '../../components/ItemCard';
 import ItemCategories from '../../components/ItemCategories';
 import { useSelector, useDispatch } from 'react-redux';
 import DetailActions from '../../redux/DetailRedux/action';
+import CartAction from '../../redux/CartRedux/action'
 
 const data = {
   Sidser: [
@@ -72,6 +73,10 @@ const index = (props) => {
   };
 
   const onHomeToCart = () => {
+    dispatch(CartAction.getCart(2, onSuccessCart));
+  };
+
+  const onSuccessCart = () => {
     pushScreen(props.componentId, 'Cart', '', '', false, 'chevron-left');
   };
 

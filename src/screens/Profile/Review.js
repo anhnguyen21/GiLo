@@ -4,8 +4,11 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import hoacuc from '../../assests/img/hoacuc.png';
 import { Navigation } from 'react-native-navigation';
 import ItemReview from '../../components/ItemReview';
+import { useDispatch, useSelector } from 'react-redux';
 
 const Review = (props) => {
+  const dispatch = useDispatch();
+  const review = useSelector((state) => state.review.responseReviewType);
   const backDetail = () => {
     Navigation.pop(props.componentId);
   };
@@ -74,9 +77,14 @@ const Review = (props) => {
           </View>
         </View>
         <View style={styles.layoutCenter}>
+          {review.map((item, index) => {
+            return (
+              <ItemReview name={item.account} content={item.content} time={item.time} key="index" />
+            );
+          })}
+          {/* <ItemReview />
           <ItemReview />
-          <ItemReview />
-          <ItemReview />
+          <ItemReview /> */}
         </View>
       </View>
     </View>

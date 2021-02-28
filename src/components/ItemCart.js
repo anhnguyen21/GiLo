@@ -2,20 +2,20 @@ import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 import hoacuc from '../assests/img/hoacuc.png';
 
-const ItemCart = () => {
+const ItemCart = (props) => {
   return (
     <View>
       <View style={styles.layoutItemCart}>
         <View style={styles.itemRowCart}>
-          <Image style={styles.imgCart} source={hoacuc} />
+          <Image style={styles.imgCart} source={{ uri: props.img }} />
           <View style={styles.informCart}>
-            <Text style={styles.txtName}>Hoa cúc</Text>
+            <Text style={styles.txtName}>{props.name}</Text>
             <Text style={styles.txtType}>Sinh nhật</Text>
-            <Text style={styles.txtPrice}>120000 Đ</Text>
+            <Text style={styles.txtPrice}>{props.price} Đ</Text>
           </View>
           <View style={styles.layoutQuantity}>
             <Text style={styles.txtPlus}>+</Text>
-            <Text style={styles.txtQuantity}>1</Text>
+            <Text style={styles.txtQuantity}>{props.quantity}</Text>
             <Text style={styles.txtminus}>-</Text>
           </View>
         </View>
@@ -48,10 +48,13 @@ const styles = StyleSheet.create({
   itemRowCart: {
     flexDirection: 'row',
     alignItems: 'center',
+    marginTop: 20,
+    marginLeft: 5,
   },
   imgCart: {
-    width: 120,
-    height: 120,
+    width: 80,
+    height: 80,
+    borderRadius: 40,
   },
   informCart: {
     marginLeft: 20,

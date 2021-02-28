@@ -20,5 +20,24 @@ export function* userLogin({ data }) {
   }
 }
 
-const userLoginSagas = () => [takeLatest(LoginTypes.USER_LOGIN, userLogin)];
+export function* userSignUpApi({ data, onSuccess }) {
+  console.log(data);
+  try {
+    const response = yield call(userRegisterApi, data);
+    const newResponse = {
+      data: response.data,
+    };
+    yield put(SignUpActions.userSignUpSuccess(newResponse));
+    onSuccess && onSuccess();
+    console.log('SignUp success');
+  } catch (error) {
+    console.log(error);
+    yield put(SignUpActions.userSignUpFailure(error));
+  }
+}
+
+const userLoginSagas = () => [
+  takeLatest(LoginTypes.USER_LOGIN, userLogin),
+  takeLatest(SignUpTypes.USER_SIGNUP, userSignUpApi),
+];
 export default userLoginSagas();

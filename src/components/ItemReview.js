@@ -3,15 +3,15 @@ import { StyleSheet, Text, View, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import hoacuc from '../assests/img/hoacuc.png';
 
-const ItemReview = () => {
+const ItemReview = (props) => {
   return (
     <View>
       <View style={styles.layItemRow}>
         <Image style={styles.imgAvatar} source={hoacuc} />
         <View style={styles.layDeatilReview}>
           <View style={styles.layoutName}>
-            <Text style={styles.txtName}>Nguyen The Anh</Text>
-            <Text style={styles.txtDay}>12 days ago</Text>
+            <Text style={styles.txtName}>{props.name}</Text>
+            <Text style={styles.txtDay}>{props.time}</Text>
           </View>
           <View style={styles.layoutIcon}>
             <Icon style={styles.iconStar} name="star" />
@@ -21,9 +21,7 @@ const ItemReview = () => {
             <Icon style={styles.iconStar} name="star" />
           </View>
           <View style={styles.layoutDescription}>
-            <Text style={styles.txtDescription}>
-              Hoa cúc đẹp giá thành rẻ phù hợp cho nhũng ngày khách thành
-            </Text>
+            <Text style={styles.txtDescription}>{props.content}</Text>
           </View>
           <View style={styles.layoutLikeReply}>
             <View style={styles.layoutLike}>

@@ -16,7 +16,7 @@ const login = (props) => {
   };
   const onLoginToHome = () => {
     const dataLogin = {
-      account: 'anh',
+      account: 'anh1999',
       password: '123',
     };
     if (dataLogin.account === '' || dataLogin.password === '') {
