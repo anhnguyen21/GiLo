@@ -13,6 +13,9 @@ const index = (props) => {
   const onGoToNonfi = () => {
     pushScreen(props.componentId, 'Nonfication', '', '', false, 'chevron-left');
   };
+  const onGoToPayment = () => {
+    pushScreen(props.componentId, 'Payment', '', '', false, 'chevron-left');
+  };
   return (
     <View>
       <Image style={styles.imgProfile} source={imgProfile} />
@@ -67,13 +70,13 @@ const index = (props) => {
           </View>
           <Icon name="chevron-left" size={14} />
         </View>
-        <View style={styles.itemChooses}>
+        <TouchableOpacity style={styles.itemChooses} onPress={() => onGoToPayment()}>
           <View style={styles.itemLeft}>
             <Icon style={styles.iconItemChooses} name="credit-card" />
             <Text style={styles.txtItemChooses}>Thanh toán</Text>
           </View>
           <Icon name="chevron-left" size={14} />
-        </View>
+        </TouchableOpacity>
         <View style={styles.itemChooses}>
           <View style={styles.itemLeft}>
             <Icon style={styles.iconItemChooses} name="power-off" />

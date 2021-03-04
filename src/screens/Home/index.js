@@ -155,7 +155,7 @@ const index = (props) => {
                 price={item.price}
                 idProduct={item.id}
                 heart={item.heart}
-                // idComponent={props.componentId}
+                discount={item.discount}
                 onGiftDetai={onGiftDetai}
               />
             );
@@ -174,16 +174,16 @@ const index = (props) => {
         </View>
         <Text style={styles.txtRow}>Sản phẩm nổi bật</Text>
         <ScrollView style={styles.row} horizontal={true} showsHorizontalScrollIndicator={false}>
-        {dataProduct.map((item, index) => {
+          {dataProduct.map((item, index) => {
             return (
               <ItemCard
                 key={index}
                 image={item.img}
                 title={item.name}
                 price={item.price}
-                // idBook={item.id}
+                idProduct={item.id}
                 heart={item.heart}
-                // idComponent={props.componentId}
+                discount={item.discount}
                 onGiftDetai={onGiftDetai}
               />
             );

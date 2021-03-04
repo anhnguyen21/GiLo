@@ -5,7 +5,7 @@ import gift from '../../assests/img/hoacuc.png';
 
 const EmptyCart = () => {
   return (
-    <View>
+    <View style={styles.container}>
       <View style={styles.layoutTop}>
         <View style={styles.container}>
           <View style={styles.backLogin}>

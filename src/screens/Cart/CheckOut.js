@@ -1,18 +1,22 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, TextInput, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import { Navigation } from 'react-native-navigation';
 
-const CheckOut = () => {
+const CheckOut = (props) => {
+  const backProfile = () => {
+    Navigation.pop(props.componentId);
+  };
   return (
     <ScrollView>
-      <View style={styles.container}>
-        <TouchableOpacity style={styles.backLogin}>
+      <TouchableOpacity style={styles.container} onPress={() => backProfile()}>
+        <View style={styles.backLogin}>
           <TouchableOpacity>
             <Icon name="chevron-left" size={18} />
           </TouchableOpacity>
           <Text style={styles.txtBack}>Kiểm tra thông tin</Text>
-        </TouchableOpacity>
-      </View>
+        </View>
+      </TouchableOpacity>
       <View style={styles.layoutContent}>
         <View style={styles.layoutAddress}>
           <View style={styles.layoutAddAddress}>

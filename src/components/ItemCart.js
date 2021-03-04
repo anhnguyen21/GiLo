@@ -13,11 +13,11 @@ const ItemCart = (props) => {
             <Text style={styles.txtType}>Sinh nhật</Text>
             <Text style={styles.txtPrice}>{props.price} Đ</Text>
           </View>
-          <View style={styles.layoutQuantity}>
-            <Text style={styles.txtPlus}>+</Text>
-            <Text style={styles.txtQuantity}>{props.quantity}</Text>
-            <Text style={styles.txtminus}>-</Text>
-          </View>
+        </View>
+        <View style={styles.layoutQuantity}>
+          <Text style={styles.txtPlus}>+</Text>
+          <Text style={styles.txtQuantity}>{props.quantity}</Text>
+          <Text style={styles.txtminus}>-</Text>
         </View>
         <TouchableOpacity style={styles.btnDelete}>
           <Text style={styles.txtDelete}>x</Text>
@@ -72,9 +72,9 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   layoutQuantity: {
-    marginLeft: 65,
-    justifyContent: 'center',
-    alignItems: 'center',
+    position: 'absolute',
+    marginLeft: 270,
+    marginTop: 20,
   },
   txtQuantity: {
     marginTop: 10,

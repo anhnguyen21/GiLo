@@ -1,5 +1,13 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  TextInput,
+  ScrollView,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import hoacuc from '../../assests/img/hoacuc.png';
 import { Navigation } from 'react-native-navigation';
@@ -13,7 +21,7 @@ const index = (props) => {
     Navigation.pop(props.componentId);
   };
   return (
-    <View style={styles.conatiner}>
+    <ScrollView style={styles.conatiner}>
       <TouchableOpacity style={styles.layoutTopBack} onPress={() => backHome()}>
         <Icon style={styles.iconBack} name="chevron-left" size={18} />
         <Text style={styles.txtTitle}>Giỏ hàng</Text>
@@ -36,12 +44,6 @@ const index = (props) => {
             <Text style={styles.txtDiscount}>Áp dụng</Text>
           </TouchableOpacity>
         </View>
-        <View style={styles.layoutDiscount}>
-          <TextInput style={styles.ipDiscount} placeholder="Vị tri mà bạn muốn giao hàng" />
-          <TouchableOpacity style={styles.btnDiscount}>
-            <Text style={styles.txtDiscount}>Tìm kiếm</Text>
-          </TouchableOpacity>
-        </View>
         <View style={styles.rowTotal}>
           <Text style={styles.txtPriceBasic}>Giá giảm phẩm:</Text>
           <Text style={styles.txtPriceTotal}>120000 Đ</Text>
@@ -58,7 +60,7 @@ const index = (props) => {
       <TouchableOpacity style={styles.btnBuy}>
         <Text style={styles.txtBuy}>Mua hàng</Text>
       </TouchableOpacity>
-    </View>
+    </ScrollView>
   );
 };
 
@@ -132,6 +134,7 @@ const styles = StyleSheet.create({
   },
   btnBuy: {
     marginLeft: 50,
+    marginBottom: 20,
     width: 300,
     height: 50,
     backgroundColor: '#ffc25d',

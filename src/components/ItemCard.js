@@ -10,24 +10,35 @@ const ItemCard = (props) => {
     <View>
       <View style={styles.layoutRow}>
         {(() => {
-          if (props.heart == 0) {
+          if (props.discount != 0) {
             return (
               <View style={styles.sales}>
-                <Text style={styles.txtSales}>Giảm 10%</Text>
+                <Text style={styles.txtSales}>Giảm {props.discount}%</Text>
               </View>
             );
           } else {
             return <View />;
           }
         })()}
-
-        <View style={styles.topItemRow}>
-          <Icon style={styles.iconHeart} name="heart" color="#808080" />
-        </View>
+        {(() => {
+          if (props.heart != 0) {
+            return (
+              <View style={styles.topItemRow}>
+                <Icon style={styles.iconHeart} name="heart" color="red" />
+              </View>
+            );
+          } else {
+            return (
+              <View style={styles.topItemRow}>
+                <Icon style={styles.iconHeart} name="heart" color="#808080" />
+              </View>
+            );
+          }
+        })()}
         <View style={styles.containerRow}>
           <Image style={styles.imgItemRow} source={{ uri: props.image }} />
           <Text style={styles.txtTitle}>{props.title}</Text>
-          <Text style={styles.txtPrice}>{props.price}</Text>
+          <Text style={styles.txtPrice}>{props.price} Đ</Text>
         </View>
         <TouchableOpacity style={styles.btnAdd} onPress={() => props.onGiftDetai(props.idProduct)}>
           <Icon style={styles.iconPlus} name="plus" />
@@ -103,9 +114,9 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   imgItemRow: {
-    marginLeft: 5,
-    width: 100,
-    height: 100,
+    marginLeft: 10,
+    width: 90,
+    height: 90,
     borderRadius: 50,
     alignItems: 'center',
   },
@@ -114,7 +125,6 @@ const styles = StyleSheet.create({
     marginTop: 30,
   },
   txtTitle: {
-    marginTop: 10,
     fontSize: 14,
     fontWeight: 'bold',
   },

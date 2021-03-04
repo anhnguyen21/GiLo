@@ -32,6 +32,7 @@ export default Start;
 const styles = StyleSheet.create({
   container: {
     margin: 30,
+    marginTop: 20,
     alignItems: 'center',
   },
   txtGui: {
@@ -43,8 +44,8 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   imgGift: {
-    marginTop: 60,
-    width: 500,
+    marginTop: 30,
+    width: 400,
   },
   btnLogin: {
     marginTop: 60,

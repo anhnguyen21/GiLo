@@ -15,6 +15,7 @@ import Order from '../screens/Cart/order';
 import Start from '../screens/Authur/Start';
 import UpdateProfile from '../screens/Profile/UpdateProfile';
 import Nonfication from '../screens/Profile/Nontification';
+import Payment from '../screens/Cart/CheckOut';
 
 function ReduxProvider(Component) {
   return (props) => (
@@ -89,5 +90,10 @@ export function registerScreens() {
     'Nonfication',
     () => ReduxProvider(Nonfication),
     () => Nonfication,
+  );
+  Navigation.registerComponent(
+    'Payment',
+    () => ReduxProvider(Payment),
+    () => Payment,
   );
 }

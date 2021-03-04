@@ -2,9 +2,9 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View, TextInput } from 'react-native';
 import { Navigation } from 'react-native-navigation';
-import { useDispatch, useSelector } from 'react-redux';
+// import { useDispatch, useSelector } from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import SignUpActions from '../../redux/AuthRedux/action';
+// import SignUpActions from '../../redux/AuthRedux/action';
 
 const signup = (props) => {
   const [account, setUserName] = useState('');
@@ -15,30 +15,30 @@ const signup = (props) => {
   const [address, setAddress] = useState('');
   const [phone, setPhone] = useState('');
   const [brithday, setBrithday] = useState('');
-  const dispatch = useDispatch();
-  const onSignUp = () => {
-    const dataSignUp = {
-      account: account,
-      firstName: firstName,
-      lastName: lastName,
-      email: email,
-      password: password,
-      address: address,
-      phone: phone,
-      gender: 1,
-    };
-    if (dataSignUp.account === '' || dataSignUp.password === '') {
-      alert('Bạn phải nhập đầy đủ thông tin !');
-    } else {
-      dispatch(SignUpActions.userSignUp(dataSignUp, onSuccess));
-    }
-  };
-  const onSuccess = () => {
-    Navigation.pop(props.componentId);
-  };
-  const backLogin = () => {
-    Navigation.pop(props.componentId);
-  };
+  // const dispatch = useDispatch();
+  // const onSignUp = () => {
+  //   const dataSignUp = {
+  //     account: account,
+  //     firstName: firstName,
+  //     lastName: lastName,
+  //     email: email,
+  //     password: password,
+  //     address: address,
+  //     phone: phone,
+  //     gender: 1,
+  //   };
+  //   if (dataSignUp.account === '' || dataSignUp.password === '') {
+  //     alert('Bạn phải nhập đầy đủ thông tin !');
+  //   } else {
+  //     dispatch(SignUpActions.userSignUp(dataSignUp, onSuccess));
+  //   }
+  // };
+  // const onSuccess = () => {
+  //   Navigation.pop(props.componentId);
+  // };
+  // const backLogin = () => {
+  //   Navigation.pop(props.componentId);
+  // };
   return (
     <View style={styles.container}>
       <View style={styles.backLogin}>
