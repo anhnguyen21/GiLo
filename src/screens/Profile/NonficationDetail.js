@@ -2,8 +2,10 @@ import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import ItemNonfication from '../../components/ItemNonfication';
+import { useDispatch, useSelector } from 'react-redux';
 
 const Nonfication = () => {
+  const dataNotification = useSelector((state) => state.nofication.responseNofication);
   return (
     <View>
       <View style={styles.layoutTop}>
@@ -17,9 +19,11 @@ const Nonfication = () => {
         </View>
       </View>
       <View style={styles.layoutContent}>
-        <ItemNonfication />
-        <ItemNonfication />
-        <ItemNonfication />
+        {dataNotification.map((item, index) => {
+          return (
+            <ItemNonfication key={index} content={item.content} type={item.type} time={item.time} />
+          );
+        })}
       </View>
     </View>
   );

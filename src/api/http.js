@@ -3,7 +3,7 @@ import axios from 'axios';
 const API_ROOT = 'https://givinggift.000webhostapp.com/';
 
 axios.defaults.baseURL = API_ROOT;
-axios.defaults.timeout = 1500000;
+axios.defaults.timeout = 2500000;
 
 axios.interceptors.request.use(
   (config) => config,

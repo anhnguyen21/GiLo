@@ -8,7 +8,7 @@ import {
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 import { Navigation } from 'react-native-navigation';
 const { width, height } = Dimensions.get('window');
 import hoacuc from '../../assests/img/hoacuc.png';
@@ -18,6 +18,7 @@ import { pushScreen } from '../../navigation/pushScreen';
 import { useSelector, useDispatch } from 'react-redux';
 import ReviewActions from '../../redux/ReviewRedux/action';
 import CartAction from '../../redux/CartRedux/action';
+import ChatAction from '../../redux/ChatRedux/action';
 
 const index = (props) => {
   const prduct = useSelector((state) => state.detail.responseProductDetail);
@@ -29,7 +30,7 @@ const index = (props) => {
     dispatch(ReviewActions.getReview(id, onSuccess));
   };
   const onSuccess = () => {
-    pushScreen(props.componentId, 'Review', '', '', false, 'chevron-left');
+    pushScreen(props.componentId, 'Review', '', '', false, 'chevron-left', false);
   };
   const AddToCart = (id) => {
     const dataLogin = {
@@ -37,6 +38,16 @@ const index = (props) => {
       id_pro: id,
     };
     dispatch(CartAction.getAddCart(dataLogin));
+  };
+  const MessageToAdmin = (id) => {
+    const dataChat = {
+      id_user: 2,
+      id_admin: 9,
+    };
+    dispatch(ChatAction.getChat(dataChat, onSuccessChat));
+  };
+  const onSuccessChat = () => {
+    pushScreen(props.componentId, 'Chat', '', '', false, 'chevron-left', false);
   };
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
@@ -107,6 +118,9 @@ const index = (props) => {
           <Text style={styles.txtBuy}>Mua hàng</Text>
         </TouchableOpacity>
       </View>
+      <TouchableOpacity style={styles.layoutMes} onPress={() => MessageToAdmin(prduct.id)}>
+        <Icon name="comment-dots" color="#fff" size={16} />
+      </TouchableOpacity>
     </ScrollView>
   );
 };
@@ -315,5 +329,16 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     color: '#fff',
+  },
+  layoutMes: {
+    position: 'absolute',
+    top: 500,
+    left: 300,
+    backgroundColor: '#f070a9',
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });

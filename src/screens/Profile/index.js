@@ -8,14 +8,21 @@ const { width: width } = Dimensions.get('window');
 
 const index = (props) => {
   const onGoToUpdate = () => {
-    pushScreen(props.componentId, 'UpdateProfile', '', '', false, 'chevron-left');
+    pushScreen(props.componentId, 'UpdateProfile', '', '', false, 'chevron-left', false);
   };
   const onGoToNonfi = () => {
-    pushScreen(props.componentId, 'Nonfication', '', '', false, 'chevron-left');
+    pushScreen(props.componentId, 'Nonfication', '', '', false, 'chevron-left', false);
   };
   const onGoToPayment = () => {
-    pushScreen(props.componentId, 'Payment', '', '', false, 'chevron-left');
+    pushScreen(props.componentId, 'Payment', '', '', false, 'chevron-left', false);
   };
+  const onAllOrder = () => {
+    pushScreen(props.componentId, 'Order', '', '', false, 'chevron-left', false);
+  };
+  const onPromote = () => {
+    pushScreen(props.componentId, 'PromoCode', '', '', false, 'chevron-left', false);
+  };
+
   return (
     <View>
       <Image style={styles.imgProfile} source={imgProfile} />
@@ -34,14 +41,14 @@ const index = (props) => {
           </View>
         </View>
         <View style={styles.layoutItem}>
-          <View style={styles.item}>
+          <TouchableOpacity style={styles.item} onPress={() => onAllOrder()}>
             <Icon style={styles.iconItem} name="gift" />
             <Text style={styles.txtItem}>Sản phẩm</Text>
-          </View>
-          <View style={styles.item}>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.item} onPress={() => onPromote()}>
             <Icon style={styles.iconItem} name="credit-card" />
             <Text style={styles.txtItem}>Mã giảm giá</Text>
-          </View>
+          </TouchableOpacity>
           <View style={styles.item}>
             <Icon style={styles.iconItem} name="map-marker" />
             <Text style={styles.txtItem}>Địa chỉ</Text>

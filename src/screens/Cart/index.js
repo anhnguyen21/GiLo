@@ -13,12 +13,16 @@ import hoacuc from '../../assests/img/hoacuc.png';
 import { Navigation } from 'react-native-navigation';
 import ItemCart from '../../components/ItemCart';
 import { useDispatch, useSelector } from 'react-redux';
+import { pushScreen } from '../../navigation/pushScreen';
 
 const index = (props) => {
   const dataCart = useSelector((state) => state.cart.responseCart);
   const dispatch = useDispatch();
   const backHome = () => {
     Navigation.pop(props.componentId);
+  };
+  const onCheckOrder = () => {
+    pushScreen(props.componentId, 'CheckOut', '', '', false, 'chevron-left', false);
   };
   return (
     <ScrollView style={styles.conatiner}>
@@ -57,7 +61,7 @@ const index = (props) => {
           <Text style={styles.txtPriceTotal}>120000 Đ</Text>
         </View>
       </View>
-      <TouchableOpacity style={styles.btnBuy}>
+      <TouchableOpacity style={styles.btnBuy} onPress={() => onCheckOrder()}>
         <Text style={styles.txtBuy}>Mua hàng</Text>
       </TouchableOpacity>
     </ScrollView>

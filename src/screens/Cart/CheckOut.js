@@ -2,10 +2,14 @@ import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, TextInput, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { Navigation } from 'react-native-navigation';
+import { pushScreen } from '../../navigation/pushScreen';
 
 const CheckOut = (props) => {
   const backProfile = () => {
     Navigation.pop(props.componentId);
+  };
+  const onAddAdress = () => {
+    pushScreen(props.componentId, 'Map', ' ', ' ', false, 'chevron-left', false);
   };
   return (
     <ScrollView>
@@ -21,7 +25,7 @@ const CheckOut = (props) => {
         <View style={styles.layoutAddress}>
           <View style={styles.layoutAddAddress}>
             <Text style={styles.txtDispalyAddress}>Chọn vị trí bạn muốn giao hàng</Text>
-            <TouchableOpacity style={styles.btnAddAddress}>
+            <TouchableOpacity style={styles.btnAddAddress} onPress={() => onAddAdress()}>
               <Text style={styles.txtAddAddress}>Thêm mới</Text>
             </TouchableOpacity>
           </View>

@@ -1,20 +1,37 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import { useDispatch, useSelector } from 'react-redux';
+import ItemProgress from '../../components/ItemProgress';
+import { pushScreen } from '../../navigation/pushScreen';
+import { Navigation } from 'react-native-navigation';
 
-const order = () => {
+const order = (props) => {
+  const dataProgress = useSelector((state) => state.progress.responseProgress);
+  const onDetailsOrder = (data) => {
+    console.log(data);
+    pushScreen(props.componentId, 'MyOrder', data, '', false, 'chevron-left', false);
+  };
+  const backProfile = () => {
+    Navigation.pop(props.componentId);
+  };
   return (
-    <View>
+    <ScrollView>
       <View style={styles.layoutTop}>
         <View style={styles.container}>
-          <View style={styles.backLogin}>
+          <TouchableOpacity style={styles.backLogin} onPress={() => backProfile()}>
             <TouchableOpacity>
               <Icon name="chevron-left" size={18} />
             </TouchableOpacity>
             <Text style={styles.txtBack}>Sản phẩm của bạn</Text>
-          </View>
+          </TouchableOpacity>
           <View style={styles.layoutTitle}>
-            <View style={styles.itemTitle}>
+            <View
+              style={[
+                styles.itemTitle,
+                { borderBottomWidth: 1, paddingBottom: 5, borderColor: '#1ac91a' },
+              ]}
+            >
               <Text style={styles.txtName}>Tất cả</Text>
               <Text style={styles.txtNumber}>(58)</Text>
             </View>
@@ -22,70 +39,29 @@ const order = () => {
               <Text style={styles.txtName}>Đang chờ</Text>
               <Text style={styles.txtNumber}>(58)</Text>
             </View>
-            <View
-              style={[
-                styles.itemTitle,
-                { borderBottomWidth: 1, paddingBottom: 5, borderColor: '#1ac91a' },
-              ]}
-            >
+            <View style={styles.itemTitle}>
               <Text style={[styles.txtName, { color: '#1ac91a' }]}>Hoàn thành</Text>
               <Text style={[styles.txtNumber, { color: '#1ac91a' }]}>(58)</Text>
             </View>
           </View>
         </View>
       </View>
-      <View style={[styles.layoutItem]}>
-        <View style={styles.topItem}>
-          <Text style={styles.txtNameProduct}>Mã sản phẩm: 2435556787</Text>
-          <Text style={styles.day}> 25 NOV</Text>
-        </View>
-        <View style={styles.itemCenter}>
-          <Text>Status:</Text>
-          <View style={styles.rowStatus}>
-            <View style={[styles.itemStatus, { borderBottomColor: 'red' }]} />
-            <View style={styles.itemStatus} />
-            <View style={styles.itemStatus} />
-            <View style={styles.itemStatus} />
-          </View>
-          <View style={styles.rowDot}>
-            <Icon style={[styles.iconDot, { color: 'red' }]} name="dot-circle" />
-            <Icon style={[styles.iconDot, { color: 'red' }]} name="dot-circle" />
-            <Icon style={styles.iconDot} name="dot-circle" />
-            <Icon style={styles.iconDot} name="dot-circle" />
-            <Icon style={styles.iconDot} name="dot-circle" />
-          </View>
-        </View>
-        <View style={styles.itemBottom}>
-          <Text style={styles.txtProcess}>Process</Text>
-        </View>
-      
+      <View>
+        {dataProgress.map((item, index) => {
+          return (
+            <ItemProgress
+              key={index}
+              state={item.state}
+              content={item.content}
+              time={item.time}
+              order={item.id_order}
+              data={item}
+              onDetailsOrder={onDetailsOrder}
+            />
+          );
+        })}
       </View>
-       <View style={[styles.layoutItem]}>
-        <View style={styles.topItem}>
-          <Text style={styles.txtNameProduct}>Mã sản phẩm: 2435556787</Text>
-          <Text style={styles.day}> 25 NOV</Text>
-        </View>
-        <View style={styles.itemCenter}>
-          <Text>Status:</Text>
-          <View style={styles.rowStatus}>
-            <View style={[styles.itemStatus, { borderBottomColor: 'red' }]} />
-            <View style={styles.itemStatus} />
-            <View style={styles.itemStatus} />
-            <View style={styles.itemStatus} />
-          </View>
-          <View style={styles.rowDot}>
-            <Icon style={[styles.iconDot, { color: 'red' }]} name="dot-circle" />
-            <Icon style={[styles.iconDot, { color: 'red' }]} name="dot-circle" />
-            <Icon style={styles.iconDot} name="dot-circle" />
-            <Icon style={styles.iconDot} name="dot-circle" />
-            <Icon style={styles.iconDot} name="dot-circle" />
-          </View>
-        </View>
-        <View style={styles.itemBottom}>
-          <Text style={styles.txtProcess}>Process</Text>
-        </View>
-      </View>
-    </View>
+    </ScrollView>
   );
 };
 
@@ -127,59 +103,5 @@ const styles = StyleSheet.create({
   },
   txtNumber: {
     color: '#e7eaeb',
-  },
-  layoutItem: {
-    margin: 30,
-    marginTop: 0,
-    backgroundColor: '#fff',
-    borderRadius: 5,
-    height: 100,
-    padding: 15,
-    paddingLeft: 25,
-    paddingRight: 25,
-  },
-  topItem: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  txtNameProduct: {
-    color: '#e7eaeb',
-    fontWeight: 'bold',
-  },
-  day: {
-    color: '#e7eaeb',
-  },
-  itemCenter: {
-    marginTop: 15,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  rowStatus: {
-    position: 'absolute',
-    marginTop: 10,
-    marginLeft: 60,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  rowDot: {
-    position: 'absolute',
-    marginTop: 5,
-    marginLeft: 55,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: 230,
-  },
-  itemStatus: {
-    borderBottomWidth: 3,
-    borderBottomColor: '#e7eaeb',
-    width: 55,
-  },
-  iconDot: {
-    color: '#e7eaeb',
-  },
-  txtProcess: {
-    color: 'red',
-    opacity: 0.5,
-    marginLeft: 90,
   },
 });

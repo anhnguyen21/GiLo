@@ -2,8 +2,11 @@ import { call, takeLatest, put } from 'redux-saga/effects';
 import SignUpActions, { SignUpTypes } from './action';
 import LoginActions, { LoginTypes } from './action';
 import ProductActions, { PRODUCT_TYPES } from '../HomeRedux/action';
+import NonficationActions, { NofiTypes } from '../noficationRedux/action';
 import { userLoginApi, userRegisterApi } from '../../api/auth';
 import { homeScreen } from '../../navigation/pushScreen';
+import ProgressActions, { ProductType } from '../ProgressRedux/action';
+import PromotionActions, { PromotionTypes } from '../PromotionRedux/action';
 export function* userLogin({ data }) {
   console.log('Login');
   try {
@@ -12,6 +15,9 @@ export function* userLogin({ data }) {
     const newResponse = {
       data: response.data,
     };
+    yield put(PromotionActions.getPromotion());
+    yield put(NonficationActions.getNofication(newResponse.data.idToken));
+    yield put(ProgressActions.getProgresscation(newResponse.data.idToken));
     yield put(LoginActions.userLoginSuccess(newResponse));
     yield put(ProductActions.getProductTypes());
   } catch (error) {

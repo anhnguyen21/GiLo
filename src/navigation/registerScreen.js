@@ -15,7 +15,14 @@ import Order from '../screens/Cart/order';
 import Start from '../screens/Authur/Start';
 import UpdateProfile from '../screens/Profile/UpdateProfile';
 import Nonfication from '../screens/Profile/Nontification';
-import Payment from '../screens/Cart/CheckOut';
+import Payment from '../screens/Cart/NewPay';
+import Chat from '../screens/Chat/index';
+import Map from '../screens/Map/index';
+import MyOrder from '../screens/Profile/MyOrder';
+import CheckOut from '../screens/Cart/CheckOut';
+import PromoCode from '../screens/Profile/PromoCode';
+import PromoCodeDetails from '../screens/Profile/PromoteCodeDetail';
+import OrderDetail from '../screens/Profile/OrderDetail';
 
 function ReduxProvider(Component) {
   return (props) => (
@@ -95,5 +102,40 @@ export function registerScreens() {
     'Payment',
     () => ReduxProvider(Payment),
     () => Payment,
+  );
+  Navigation.registerComponent(
+    'Chat',
+    () => ReduxProvider(Chat),
+    () => Chat,
+  );
+  Navigation.registerComponent(
+    'Map',
+    () => ReduxProvider(Map),
+    () => Map,
+  );
+  Navigation.registerComponent(
+    'MyOrder',
+    () => ReduxProvider(MyOrder),
+    () => MyOrder,
+  );
+  Navigation.registerComponent(
+    'CheckOut',
+    () => ReduxProvider(CheckOut),
+    () => CheckOut,
+  );
+  Navigation.registerComponent(
+    'PromoCode',
+    () => ReduxProvider(PromoCode),
+    () => PromoCode,
+  );
+  Navigation.registerComponent(
+    'PromoCodeDetails',
+    () => ReduxProvider(PromoCodeDetails),
+    () => PromoCodeDetails,
+  );
+  Navigation.registerComponent(
+    'OrderDetail',
+    () => ReduxProvider(OrderDetail),
+    () => OrderDetail,
   );
 }

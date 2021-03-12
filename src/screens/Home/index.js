@@ -69,7 +69,7 @@ const index = (props) => {
   };
 
   const onSuccess = () => {
-    pushScreen(props.componentId, 'Detail', '', '', false, 'chevron-left');
+    pushScreen(props.componentId, 'Detail', '', '', false, 'chevron-left', false);
   };
 
   const onHomeToCart = () => {
@@ -77,7 +77,7 @@ const index = (props) => {
   };
 
   const onSuccessCart = () => {
-    pushScreen(props.componentId, 'Cart', '', '', false, 'chevron-left');
+    pushScreen(props.componentId, 'Cart', '', '', false, 'chevron-left', false);
   };
 
   const _renderItem = ({ item, index }, parallaxProps) => {

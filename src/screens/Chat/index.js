@@ -1,9 +1,46 @@
-import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image, TextInput } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Image,
+  TextInput,
+  ScrollView,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import { useSelector, useDispatch } from 'react-redux';
 import hoacuc from '../../assests/img/hoacuc.png';
+import ChatShop from '../../components/ChatShop';
+import ChatUser from '../../components/ChatUser';
+import ChatAction from '../../redux/ChatRedux/action';
 
 const index = () => {
+  const [ContentTest, setContentTest] = useState('');
+  const [Chat, setChat] = useState(useSelector((state) => state.chat.responseProductChat));
+  const dispatch = useDispatch();
+  const insertMessage = () => {
+    const dataChat = {
+      id_user: 2,
+      id_admin: 9,
+      content: ContentTest,
+    };
+    dispatch(ChatAction.getInsertChat(dataChat, onInsertSuccess));
+  };
+  const onInsertSuccess = () => {
+    const dataChat = {
+      id_user: 2,
+      id_admin: 9,
+    };
+    dispatch(ChatAction.getChat(dataChat, onSuccessChat));
+  };
+  const onSuccessChat = () => {
+    useEffect(() => {
+      const chat = useSelector((state) => state.chat.responseProductChat);
+      setChat(chat);
+    }, []);
+    console.log(Chat);
+  };
   return (
     <View>
       <View style={styles.layoutTop}>
@@ -12,47 +49,38 @@ const index = () => {
             <TouchableOpacity>
               <Icon name="chevron-left" size={18} />
             </TouchableOpacity>
-            <Text style={styles.txtBack}>Giỏ hàng chi tiết</Text>
+            <Text style={styles.txtBack}>Tin nhắn</Text>
           </View>
         </View>
       </View>
-      <View style={styles.layoutContent}>
+      <ScrollView style={styles.layoutContent}>
         <View style={styles.layoutDay}>
           <Text style={styles.txtTime}>Hôm nay, 10:20 AM</Text>
         </View>
-        <View style={styles.layoutMesShop}>
-          <View>
-            <Image style={styles.iconAvatar} source={hoacuc} />
-            <Icon style={styles.iconCircle} name="circle" color="#008000" />
-          </View>
-          <Text style={styles.txtMesShop}>
-            Bạn muốn đạt món quà gì? Tôi có thể tư vấn cho bạn ngay?
-          </Text>
-        </View>
-        <View style={styles.layoutMesUser}>
-          <View style={styles.layoutRowUserTxt}>
-            <Text style={styles.txtMesUser}>
-              Bạn muốn đạt món quà gì? Tôi có thể tư vấn cho bạn ngay?
-            </Text>
-          </View>
-          <View style={styles.layoutRowUserTxt}>
-            <Image style={styles.imgSend} source={hoacuc} />
-          </View>
-        </View>
-        <View style={styles.layoutMesShop}>
-          <View>
-            <Image style={styles.iconAvatar} source={hoacuc} />
-            <Icon style={styles.iconCircle} name="circle" color="#008000" />
-          </View>
-          <Text style={styles.txtMesShop}>
-            Bạn muốn đạt món quà gì? Tôi có thể tư vấn cho bạn ngay?
-          </Text>
-        </View>
-      </View>
+        {Chat.map((item, index) => {
+          return (
+            <ScrollView key={index}>
+              {(() => {
+                if (item.id_role == 0) {
+                  return <ChatUser content={item.content} />;
+                } else {
+                  return <ChatShop content={item.content} />;
+                }
+              })()}
+            </ScrollView>
+          );
+        })}
+      </ScrollView>
       <View style={styles.layoutInput}>
+        <TextInput
+          style={styles.ipEnter}
+          onChangeText={(text) => setContentTest(text)}
+          placeholder="Nhập nội dung ..."
+        />
         <Icon style={styles.iconMic} name="microphone" size={20} color="#8ac02a" />
-        <TextInput style={styles.ipEnter} placeholder="nhập nội dung ..." />
-        <Icon style={styles.iconPlus} name="plus" size={20} />
+        <TouchableOpacity style={styles.iconPlus} onPress={() => insertMessage()}>
+          <Icon name="plus" size={20} color="#fff" />
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -81,6 +109,9 @@ const styles = StyleSheet.create({
   },
   layoutContent: {
     padding: 30,
+    zIndex: 0,
+    marginBottom: 180,
+    paddingBottom: 100,
   },
   layoutDay: {
     alignItems: 'center',
@@ -168,29 +199,33 @@ const styles = StyleSheet.create({
   },
   layoutInput: {
     position: 'absolute',
-    marginTop: 700,
-    flexDirection: 'row',
+    marginTop: 650,
     margin: 30,
     alignItems: 'center',
-    justifyContent: 'center',
+    zIndex: 10,
   },
   ipEnter: {
     width: 300,
-    height: 60,
+    height: 50,
     paddingLeft: 50,
     backgroundColor: '#fff',
     borderRadius: 30,
+    marginLeft: 20,
   },
   iconMic: {
-    position: 'absolute',
-    marginTop: 700,
-    marginLeft: 100,
+    top: -35,
+    left: -110,
     zIndex: 100,
     color: '#8ac02a',
   },
   iconPlus: {
-    padding: 15,
+    width: 50,
+    height: 50,
     backgroundColor: '#8ac02a',
     borderRadius: 40,
+    top: -72,
+    left: 135,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
