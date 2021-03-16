@@ -9,6 +9,7 @@ import chatSage from './ChatRedux/saga';
 import noficationSagas from './noficationRedux/saga';
 import progressSaga from './ProgressRedux/saga';
 import promotionSaga from './PromotionRedux/saga';
+import searchSaga from './SearchRedux/saga';
 
 export default function* root() {
   yield all([
@@ -22,5 +23,6 @@ export default function* root() {
     ...noficationSagas,
     ...progressSaga,
     ...promotionSaga,
+    ...searchSaga,
   ]);
 }

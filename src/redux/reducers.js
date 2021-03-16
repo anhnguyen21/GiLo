@@ -9,6 +9,7 @@ import chat from './ChatRedux/reducer';
 import nofication from './noficationRedux/reducer';
 import progress from './ProgressRedux/reducer';
 import promotion from './PromotionRedux/reducer';
+import search from './SearchRedux/reducer';
 const rootReducer = combineReducers({
   app,
   user,
@@ -20,5 +21,6 @@ const rootReducer = combineReducers({
   nofication,
   progress,
   promotion,
+  search,
 });
 export default rootReducer;

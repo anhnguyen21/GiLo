@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
   Text,
@@ -16,13 +16,26 @@ import { useDispatch, useSelector } from 'react-redux';
 import { pushScreen } from '../../navigation/pushScreen';
 
 const index = (props) => {
+  useEffect(() => {
+    totalPr();
+  }, [totalPrice]);
   const dataCart = useSelector((state) => state.cart.responseCart);
+  const [totalPrice, setTotalPrice] = useState(0);
   const dispatch = useDispatch();
   const backHome = () => {
     Navigation.pop(props.componentId);
   };
   const onCheckOrder = () => {
     pushScreen(props.componentId, 'CheckOut', '', '', false, 'chevron-left', false);
+  };
+  const totalPr = () => {
+    var total = 0;
+    dataCart.map((item, index) => {
+      total = total + item.price * item.quantityCart;
+    });
+    setTotalPrice(total);
+    console.log(total);
+    return total;
   };
   return (
     <ScrollView style={styles.conatiner}>
@@ -50,7 +63,7 @@ const index = (props) => {
         </View>
         <View style={styles.rowTotal}>
           <Text style={styles.txtPriceBasic}>Giá giảm phẩm:</Text>
-          <Text style={styles.txtPriceTotal}>120000 Đ</Text>
+          <Text style={styles.txtPriceTotal}>{totalPrice} Đ</Text>
         </View>
         <View style={styles.rowTotal}>
           <Text style={styles.txtPriceBasic}>Mã giảm giá</Text>
@@ -58,7 +71,7 @@ const index = (props) => {
         </View>
         <View style={styles.rowTotal}>
           <Text style={styles.txtPriceBasic}>Tổng tiền:</Text>
-          <Text style={styles.txtPriceTotal}>120000 Đ</Text>
+          <Text style={styles.txtPriceTotal}>{totalPrice} Đ</Text>
         </View>
       </View>
       <TouchableOpacity style={styles.btnBuy} onPress={() => onCheckOrder()}>

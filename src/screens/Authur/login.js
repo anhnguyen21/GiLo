@@ -12,7 +12,7 @@ const login = (props) => {
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
   const onLoginToSignUp = () => {
-    pushScreen(props.componentId, 'SignUp', '', '', false, 'chevron-left');
+    pushScreen(props.componentId, 'SignUp', '', '', false, 'chevron-left', false);
   };
   const onLoginToHome = () => {
     const dataLogin = {

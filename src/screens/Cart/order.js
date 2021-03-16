@@ -20,9 +20,6 @@ const order = (props) => {
       <View style={styles.layoutTop}>
         <View style={styles.container}>
           <TouchableOpacity style={styles.backLogin} onPress={() => backProfile()}>
-            <TouchableOpacity>
-              <Icon name="chevron-left" size={18} />
-            </TouchableOpacity>
             <Text style={styles.txtBack}>Sản phẩm của bạn</Text>
           </TouchableOpacity>
           <View style={styles.layoutTitle}>
@@ -32,16 +29,16 @@ const order = (props) => {
                 { borderBottomWidth: 1, paddingBottom: 5, borderColor: '#1ac91a' },
               ]}
             >
-              <Text style={styles.txtName}>Tất cả</Text>
-              <Text style={styles.txtNumber}>(58)</Text>
+              <Text style={[styles.txtName, { color: '#1ac91a' }]}>Tất cả</Text>
+              <Text style={[styles.txtNumber, { color: '#1ac91a' }]}>(58)</Text>
             </View>
             <View style={styles.itemTitle}>
               <Text style={styles.txtName}>Đang chờ</Text>
               <Text style={styles.txtNumber}>(58)</Text>
             </View>
             <View style={styles.itemTitle}>
-              <Text style={[styles.txtName, { color: '#1ac91a' }]}>Hoàn thành</Text>
-              <Text style={[styles.txtNumber, { color: '#1ac91a' }]}>(58)</Text>
+              <Text style={[styles.txtName]}>Hoàn thành</Text>
+              <Text style={[styles.txtNumber]}>(58)</Text>
             </View>
           </View>
         </View>
@@ -78,6 +75,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignContent: 'center',
     alignItems: 'center',
+    justifyContent: 'center',
     marginBottom: 30,
   },
   txtBack: {

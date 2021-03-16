@@ -3,14 +3,17 @@ import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { Navigation } from 'react-native-navigation';
 import { pushScreen } from '../../navigation/pushScreen';
+import { useDispatch, useSelector } from 'react-redux';
 import Moment from 'moment';
+import ItemMyOrder from '../../components/ItemMyOrder';
 
 const MyOrder = (props) => {
+  const dataProgress = useSelector((state) => state.progress.responseProgress);
   const backProfile = () => {
     Navigation.pop(props.componentId);
   };
-  const onOrderDetails = () => {
-    pushScreen(props.componentId, 'OrderDetail', props.data, '', false, 'chevron-left', false);
+  const onOrderDetails = (data) => {
+    pushScreen(props.componentId, 'OrderDetail', data, '', false, 'chevron-left', false);
   };
   return (
     <View>
@@ -24,7 +27,7 @@ const MyOrder = (props) => {
           </TouchableOpacity>
         </View>
       </View>
-      <TouchableOpacity style={styles.layoutRow} onPress={() => onOrderDetails()}>
+      <TouchableOpacity style={styles.layoutRow} onPress={() => onOrderDetails(props.data)}>
         <View style={styles.layoutRowTop}>
           <View style={styles.iconGifts}>
             <Icon name="gifts" size={20} color="#fdc058" />
@@ -38,7 +41,7 @@ const MyOrder = (props) => {
             </View>
             <View style={styles.layoutRowPrice}>
               <Text>Hàng: 15</Text>
-              <Text>Giá: {props.data.quantity}</Text>
+              <Text>Giá: {props.data.price}</Text>
             </View>
           </View>
           <Icon name="chevron-circle-down" size={16} />
@@ -71,57 +74,18 @@ const MyOrder = (props) => {
           </View>
         </View>
       </TouchableOpacity>
-      <View style={styles.layoutRow}>
-        <View style={styles.layoutRowTop}>
-          <View style={styles.iconGifts}>
-            <Icon name="gifts" size={20} color="#fdc058" />
-          </View>
-
-          <View style={styles.topRight}>
-            <Text style={styles.txtTitle}>Mã đơn hàng: {props.data.id_order}</Text>
-            <Text style={styles.txtDay}>Ngày: 10/3/2021</Text>
-            <View style={styles.layoutRowPrice}>
-              <Text>Hàng: 15</Text>
-              <Text>Giá: 15000</Text>
-            </View>
-          </View>
-          <Icon name="chevron-circle-down" size={16} />
-        </View>
-      </View>
-      <View style={styles.layoutRow}>
-        <View style={styles.layoutRowTop}>
-          <View style={styles.iconGifts}>
-            <Icon name="gifts" size={20} color="#fdc058" />
-          </View>
-
-          <View style={styles.topRight}>
-            <Text style={styles.txtTitle}>Mã đơn hàng: #OD100</Text>
-            <Text style={styles.txtDay}>Ngày: 10/3/2021</Text>
-            <View style={styles.layoutRowPrice}>
-              <Text>Hàng: 15</Text>
-              <Text>Giá: 15000</Text>
-            </View>
-          </View>
-          <Icon name="chevron-circle-down" size={16} />
-        </View>
-      </View>
-      <View style={styles.layoutRow}>
-        <View style={styles.layoutRowTop}>
-          <View style={styles.iconGifts}>
-            <Icon name="gifts" size={20} color="#fdc058" />
-          </View>
-
-          <View style={styles.topRight}>
-            <Text style={styles.txtTitle}>Mã đơn hàng: #OD100</Text>
-            <Text style={styles.txtDay}>Ngày: 10/3/2021</Text>
-            <View style={styles.layoutRowPrice}>
-              <Text>Hàng: 15</Text>
-              <Text>Giá: 15000</Text>
-            </View>
-          </View>
-          <Icon name="chevron-circle-down" size={16} />
-        </View>
-      </View>
+      {dataProgress.map((item, index) => {
+        return (
+          <ItemMyOrder
+            key={index}
+            order={item.id_order}
+            date={item.time}
+            price={item.price}
+            data={item}
+            onOrderDetails={onOrderDetails}
+          />
+        );
+      })}
     </View>
   );
 };
@@ -177,11 +141,15 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: '#fff',
   },
+  topRight: {
+    width: 150,
+  },
   txtTitle: {
     fontWeight: 'bold',
   },
   layoutRowItemDayPrice: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   txtDay: {
     marginRight: 20,

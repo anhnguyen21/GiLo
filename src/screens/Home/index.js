@@ -27,7 +27,7 @@ import ItemCard from '../../components/ItemCard';
 import ItemCategories from '../../components/ItemCategories';
 import { useSelector, useDispatch } from 'react-redux';
 import DetailActions from '../../redux/DetailRedux/action';
-import CartAction from '../../redux/CartRedux/action'
+import CartAction from '../../redux/CartRedux/action';
 
 const data = {
   Sidser: [
@@ -62,6 +62,7 @@ const index = (props) => {
   const [entries, setEntries] = useState(data.Sidser);
   const [activeSlide, setActiveSlide] = useState(0);
   const dataProduct = useSelector((state) => state.home.responseDataType);
+  const user = useSelector((state) => state.user.token);
   const dispatch = useDispatch();
 
   const onGiftDetai = (id) => {
@@ -69,15 +70,15 @@ const index = (props) => {
   };
 
   const onSuccess = () => {
-    pushScreen(props.componentId, 'Detail', '', '', false, 'chevron-left', false);
+    pushScreen(props.componentId, 'Detail', user, '', false, 'chevron-left', false);
   };
 
   const onHomeToCart = () => {
-    dispatch(CartAction.getCart(2, onSuccessCart));
+    dispatch(CartAction.getCart(user, onSuccessCart));
   };
 
   const onSuccessCart = () => {
-    pushScreen(props.componentId, 'Cart', '', '', false, 'chevron-left', false);
+    pushScreen(props.componentId, 'Cart', user, '', false, 'chevron-left', false);
   };
 
   const _renderItem = ({ item, index }, parallaxProps) => {

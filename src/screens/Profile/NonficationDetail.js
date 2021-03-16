@@ -11,9 +11,6 @@ const Nonfication = () => {
       <View style={styles.layoutTop}>
         <View style={styles.container}>
           <View style={styles.backLogin}>
-            <TouchableOpacity>
-              <Icon name="chevron-left" size={18} />
-            </TouchableOpacity>
             <Text style={styles.txtBack}>Thông báo</Text>
           </View>
         </View>
@@ -42,6 +39,7 @@ const styles = StyleSheet.create({
   backLogin: {
     flexDirection: 'row',
     alignContent: 'center',
+    justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 30,
   },

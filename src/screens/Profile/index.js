@@ -17,10 +17,13 @@ const index = (props) => {
     pushScreen(props.componentId, 'Payment', '', '', false, 'chevron-left', false);
   };
   const onAllOrder = () => {
-    pushScreen(props.componentId, 'Order', '', '', false, 'chevron-left', false);
+    pushScreen(props.componentId, 'MyOrder', '', '', false, 'chevron-left', false);
   };
   const onPromote = () => {
     pushScreen(props.componentId, 'PromoCode', '', '', false, 'chevron-left', false);
+  };
+  const onAddress = () => {
+    pushScreen(props.componentId, 'Address', '', '', false, 'chevron-left', false);
   };
 
   return (
@@ -28,9 +31,6 @@ const index = (props) => {
       <Image style={styles.imgProfile} source={imgProfile} />
       <View style={styles.container}>
         <View style={styles.backLogin}>
-          <TouchableOpacity>
-            <Icon name="chevron-left" size={18} />
-          </TouchableOpacity>
           <Text style={styles.txtBack}>Thông tin cá nhân</Text>
         </View>
         <View style={styles.layoutProfile}>
@@ -49,10 +49,10 @@ const index = (props) => {
             <Icon style={styles.iconItem} name="credit-card" />
             <Text style={styles.txtItem}>Mã giảm giá</Text>
           </TouchableOpacity>
-          <View style={styles.item}>
+          <TouchableOpacity style={styles.item} onPress={() => onAddress()}>
             <Icon style={styles.iconItem} name="map-marker" />
             <Text style={styles.txtItem}>Địa chỉ</Text>
-          </View>
+          </TouchableOpacity>
         </View>
       </View>
       <View style={[styles.layoutItemChooses]}>
@@ -113,6 +113,7 @@ const styles = StyleSheet.create({
   backLogin: {
     flexDirection: 'row',
     alignContent: 'center',
+    justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 30,
   },

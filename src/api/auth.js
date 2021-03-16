@@ -48,3 +48,7 @@ export async function getApiProgress(data) {
 export async function getPromotionApi() {
   return http.get('api/promotion');
 }
+
+export async function getSearchApi() {
+  return http.get('api/search');
+}

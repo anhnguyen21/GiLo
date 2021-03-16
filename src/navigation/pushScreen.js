@@ -64,46 +64,37 @@ export const loginScreen = () => {
 
 export const homeScreen = () => {
   Promise.all([
-    Icons.getImageSource('home', 14, '#8F8F8F'),
+    Icons.getImageSource('search', 14, '#8F8F8F'),
     Icons.getImageSource('shopping-bag', 14, '#8F8F8F'),
-    Icons.getImageSource('plus', 14, '#009900'),
+    Icons.getImageSource('home', 14, '#009900'),
     Icons.getImageSource('bell', 14, '#8F8F8F'),
     Icons.getImageSource('user', 14, '#8F8F8F'),
     Icons.getImageSource('book', 14),
     Icons.getImageSource('bars', 14),
     Icons.getImageSource('search', 14),
-  ]).then(([listBook, orderHistory, add, notifications, user, library, menu, search]) => {
+  ]).then(([searchIcon, orderHistory, add, notifications, user, library, menu, search]) => {
     Navigation.setRoot({
       root: {
         bottomTabs: {
+          options: {
+            bottomTabs: {
+              currentTabIndex: 2,
+            },
+          },
           children: [
             {
               stack: {
                 children: [
                   {
                     component: {
-                      name: 'Home',
+                      name: 'Search',
                       options: {
                         topBar: {
-                          visible: true,
-                          leftButtons: [
-                            {
-                              id: 'sideBar',
-                              icon: menu,
-                              fontSize: 10,
-                            },
-                          ],
-                          rightButtons: [
-                            {
-                              id: 'search',
-                              icon: search,
-                              fontSize: 10,
-                            },
-                          ],
+                          visible: false,
                         },
                         bottomTab: {
-                          text: 'Home',
-                          icon: listBook,
+                          text: 'Tìm kiếm',
+                          icon: searchIcon,
                           fontSize: 18,
                           animate: false,
                           color: '#8F8F8F',
@@ -142,6 +133,7 @@ export const homeScreen = () => {
                 children: [
                   {
                     component: {
+                      id: 'HOME_SCREEN',
                       name: 'Home',
                       options: {
                         topBar: {
@@ -153,6 +145,11 @@ export const homeScreen = () => {
                           fontSize: 18,
                           animate: false,
                           color: '#8F8F8F',
+                          style: {
+                            backgroundColor: 'green',
+                            borderTopWidth: 1,
+                            borderTopColor: '#555',
+                          },
                         },
                       },
                     },

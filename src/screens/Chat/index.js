@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
@@ -14,10 +15,12 @@ import hoacuc from '../../assests/img/hoacuc.png';
 import ChatShop from '../../components/ChatShop';
 import ChatUser from '../../components/ChatUser';
 import ChatAction from '../../redux/ChatRedux/action';
+import Navigation from 'react-native-navigation';
 
-const index = () => {
+const index = (props) => {
   const [ContentTest, setContentTest] = useState('');
-  const [Chat, setChat] = useState(useSelector((state) => state.chat.responseProductChat));
+  const [Chat, setChatRealtime] = useState(useSelector((state) => state.chat.responseProductChat));
+  const chatUser = useSelector((state) => state.chat.responseProductChat);
   const dispatch = useDispatch();
   const insertMessage = () => {
     const dataChat = {
@@ -27,6 +30,10 @@ const index = () => {
     };
     dispatch(ChatAction.getInsertChat(dataChat, onInsertSuccess));
   };
+  const dataChat = {
+    id_user: 2,
+    id_admin: 9,
+  };
   const onInsertSuccess = () => {
     const dataChat = {
       id_user: 2,
@@ -34,32 +41,32 @@ const index = () => {
     };
     dispatch(ChatAction.getChat(dataChat, onSuccessChat));
   };
-  const onSuccessChat = () => {
-    useEffect(() => {
-      const chat = useSelector((state) => state.chat.responseProductChat);
-      setChat(chat);
-    }, []);
-    console.log(Chat);
+  const onSuccessChat = () => {};
+  useEffect(() => {
+    setChatRealtime(chatUser);
+  }, [chatUser]);
+  const backProfile = () => {
+    Navigation.pop(props.componentId);
   };
   return (
     <View>
       <View style={styles.layoutTop}>
         <View style={styles.container}>
-          <View style={styles.backLogin}>
+          <TouchableOpacity style={styles.backLogin} onPress={() => backProfile()}>
             <TouchableOpacity>
               <Icon name="chevron-left" size={18} />
             </TouchableOpacity>
             <Text style={styles.txtBack}>Tin nhắn</Text>
-          </View>
+          </TouchableOpacity>
         </View>
       </View>
-      <ScrollView style={styles.layoutContent}>
+      <ScrollView style={styles.layoutContent} persistentScrollbar={true}>
         <View style={styles.layoutDay}>
           <Text style={styles.txtTime}>Hôm nay, 10:20 AM</Text>
         </View>
         {Chat.map((item, index) => {
           return (
-            <ScrollView key={index}>
+            <View key={index}>
               {(() => {
                 if (item.id_role == 0) {
                   return <ChatUser content={item.content} />;
@@ -67,9 +74,10 @@ const index = () => {
                   return <ChatShop content={item.content} />;
                 }
               })()}
-            </ScrollView>
+            </View>
           );
         })}
+        <View style={styles.layoutSpace} />
       </ScrollView>
       <View style={styles.layoutInput}>
         <TextInput
@@ -110,8 +118,8 @@ const styles = StyleSheet.create({
   layoutContent: {
     padding: 30,
     zIndex: 0,
-    marginBottom: 180,
-    paddingBottom: 100,
+    marginBottom: 160,
+    paddingBottom: 200,
   },
   layoutDay: {
     alignItems: 'center',
@@ -130,6 +138,9 @@ const styles = StyleSheet.create({
     shadowRadius: 5.46,
 
     elevation: 9,
+  },
+  layoutSpace: {
+    height: 50,
   },
   layoutMesShop: {
     flexDirection: 'row',
@@ -199,7 +210,7 @@ const styles = StyleSheet.create({
   },
   layoutInput: {
     position: 'absolute',
-    marginTop: 650,
+    marginTop: 700,
     margin: 30,
     alignItems: 'center',
     zIndex: 10,

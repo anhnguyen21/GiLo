@@ -34,7 +34,7 @@ const index = (props) => {
   };
   const AddToCart = (id) => {
     const dataLogin = {
-      id_user: 2,
+      id_user: props.user,
       id_pro: id,
     };
     dispatch(CartAction.getAddCart(dataLogin));
@@ -334,6 +334,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 500,
     left: 300,
+    flex: 0.5,
     backgroundColor: '#f070a9',
     width: 40,
     height: 40,

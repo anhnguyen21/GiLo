@@ -23,6 +23,8 @@ import CheckOut from '../screens/Cart/CheckOut';
 import PromoCode from '../screens/Profile/PromoCode';
 import PromoCodeDetails from '../screens/Profile/PromoteCodeDetail';
 import OrderDetail from '../screens/Profile/OrderDetail';
+import Address from '../screens/Map/address';
+import Search from '../screens/Search/index';
 
 function ReduxProvider(Component) {
   return (props) => (
@@ -137,5 +139,20 @@ export function registerScreens() {
     'OrderDetail',
     () => ReduxProvider(OrderDetail),
     () => OrderDetail,
+  );
+  Navigation.registerComponent(
+    'Address',
+    () => ReduxProvider(Address),
+    () => Address,
+  );
+  Navigation.registerComponent(
+    'Search',
+    () => ReduxProvider(Search),
+    () => Search,
+  );
+  Navigation.registerComponent(
+    'MyOrder',
+    () => ReduxProvider(MyOrder),
+    () => MyOrder,
   );
 }
