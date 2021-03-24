@@ -3,6 +3,12 @@ export const CartType = makeConstantCreator('CARTTYPE', 'CARTSUCCESS', 'CARTFAIL
 
 export const AddCartType = makeConstantCreator('ADDCARTTYPE', 'ADDCARTSUCCESS', 'ADDCARTFAILARE');
 
+export const DeleteCartType = makeConstantCreator(
+  'DELETECARTTYPE',
+  'DELETECARTSUCCESS',
+  'DELETECARTFAILARE',
+);
+
 const getCart = (data, onSuccess) => makeActionCreator(CartType.CARTTYPE, { data, onSuccess });
 
 const cartSuccess = (response) => makeActionCreator(CartType.CARTSUCCESS, { response });
@@ -15,6 +21,13 @@ const cartAddSuccess = (response) => makeActionCreator(AddCartType.ADDCARTSUCCES
 
 const cartAddFailure = (error) => makeActionCreator(AddCartType.ADDCARTFAILARE, { error });
 
+const getDeleteCart = (data) => makeActionCreator(DeleteCartType.DELETECARTTYPE, { data });
+
+const cartDeleteSuccess = (response) =>
+  makeActionCreator(DeleteCartType.DELETECARTSUCCESS, { response });
+
+const cartDeleteFailure = (error) => makeActionCreator(DeleteCartType.DELETECARTFAILARE, { error });
+
 export default {
   getCart,
   cartSuccess,
@@ -22,4 +35,7 @@ export default {
   getAddCart,
   cartAddFailure,
   cartAddSuccess,
+  getDeleteCart,
+  cartDeleteSuccess,
+  cartDeleteFailure,
 };

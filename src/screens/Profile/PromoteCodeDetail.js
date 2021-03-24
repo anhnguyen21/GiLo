@@ -4,10 +4,15 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import { Navigation } from 'react-native-navigation';
 import Promote from '../../assests/icon/Promote.png';
 import Moment from 'moment';
+import { useDispatch } from 'react-redux';
 
 const PromoCodeDetails = (props) => {
+  const dispatch = useDispatch();
   const backProfile = () => {
     Navigation.pop(props.componentId);
+  };
+  const onSavePromote = () =>{
+    // dispatch();
   };
   return (
     <View>
@@ -43,7 +48,7 @@ const PromoCodeDetails = (props) => {
           <View style={styles.layoutRightPromo}>
             <Text style={styles.txtContentPromote}>{props.data.content}</Text>
             <View style={styles.layoutRight}>
-              <Text style={styles.txtCollect}>Nhận</Text>
+              <TouchableOpacity style={styles.txtCollect} onPress={() => onSavePromote()}>Nhận</TouchableOpacity>
               <Text style={styles.txtExp}>Exp: {Moment(props.data.exp).format('d MMM YYYY')}</Text>
             </View>
             <Image style={styles.image} source={Promote} />

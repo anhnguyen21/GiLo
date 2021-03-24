@@ -82,24 +82,19 @@ const App = () => {
               placeholder="Vị trí gửi hàng"
               minLength={2} // minimum length of text to search
               autoFocus={false}
-              returnKeyType={'default'}
-              // Can be left out for default return key https://facebook.github.io/react-native/docs/textinput.html#returnkeytype
-              listViewDisplayed="auto" // true/false/undefined
+              returnKeyType={'search'}
+              listViewDisplayed={false} // true/false/undefined
               fetchDetails={true}
-              renderDescription={(row) => row.description}
+              renderDescription={(row) => row.description} // custom description render
+              enablePoweredByContainer={false}
               onPress={(data, details = null) => {
                 alert('123');
                 console.log(details);
-                // if (details) {
-                //   props.handleLocation(
-                //     details.geometry.location.lat,
-                //     details.geometry.location.lng,
-                //   );
-                // }
               }}
               query={{
                 key: 'AIzaSyDGZOhb6qWmy1PLYJrLmtBho18Vasw0C_U',
                 language: 'vi',
+                types: 'establishment',
               }}
               styles={{
                 textInputContainer: {
@@ -111,14 +106,12 @@ const App = () => {
                   color: '#5d5d5d',
                   fontSize: 12,
                   position: 'absolute',
-                  zIndex: 0,
                 },
                 listView: {
                   width: 280,
                   position: 'absolute',
-                  zIndex: 100,
                   top: 40,
-                  elevation: 10,
+                  elevation: 100,
                 },
               }}
             />
@@ -131,15 +124,24 @@ const App = () => {
 
           <View style={styles.detailRowDelivery}>
             <GooglePlacesAutocomplete
-              placeholder="Vị trí chuyển hàng"
+              minLength={2} // minimum length of text to search
+              autoFocus={false}
+              returnKeyType={'search'} // Can be left out for default return key https://facebook.github.io/react-native/docs/textinput.html#returnkeytype
+              listViewDisplayed="auto" // true/false/undefined
               fetchDetails={true}
+              renderDescription={(row) => row.description} // custom description render
+              enablePoweredByContainer={false}
+              placeholder="Vị trí chuyển hàng"
+              // fetchDetails={true}
               onPress={(data, details = null) => {
+                console.log('123');
                 // 'details' is provided when fetchDetails = true
                 console.log(data, details);
               }}
               query={{
                 key: 'AIzaSyDGZOhb6qWmy1PLYJrLmtBho18Vasw0C_U',
                 language: 'vi',
+                types: 'establishment',
               }}
               styles={{
                 textInputContainer: {
@@ -151,14 +153,14 @@ const App = () => {
                   color: '#5d5d5d',
                   fontSize: 12,
                   position: 'absolute',
-                  zIndex: 0,
+                  elevation: 0,
                 },
                 listView: {
                   width: 280,
                   position: 'absolute',
                   zIndex: 100,
                   top: 40,
-                  elevation: 10,
+                  elevation: 100,
                 },
               }}
             />

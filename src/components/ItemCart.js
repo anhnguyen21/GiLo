@@ -15,9 +15,19 @@ const ItemCart = (props) => {
           </View>
         </View>
         <View style={styles.layoutQuantity}>
-          <Text style={styles.txtPlus}>+</Text>
+          <TouchableOpacity
+            style={styles.txtPlus}
+            onPress={() => props.onAddProduct(props.data.id_product)}
+          >
+            <Text>+</Text>
+          </TouchableOpacity>
           <Text style={styles.txtQuantity}>{props.quantity}</Text>
-          <Text style={styles.txtminus}>-</Text>
+          <TouchableOpacity
+            style={styles.txtminus}
+            onPress={() => props.onDeleteProduct(props.data.id_product)}
+          >
+            <Text>-</Text>
+          </TouchableOpacity>
         </View>
         <TouchableOpacity style={styles.btnDelete}>
           <Text style={styles.txtDelete}>x</Text>

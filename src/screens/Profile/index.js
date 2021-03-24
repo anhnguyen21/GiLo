@@ -4,9 +4,18 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import hoacuc from '../../assests/img/hoacuc.png';
 import imgProfile from '../../assests/img/imgProfile.jpg';
 import { pushScreen } from '../../navigation/pushScreen';
+import { useDispatch, useSelector } from 'react-redux';
+import LoginActions from '../../redux/AuthRedux/action';
 const { width: width } = Dimensions.get('window');
 
 const index = (props) => {
+  const dispatch = useDispatch();
+
+  const onLogOut = () => {
+    console.log("1234");
+    dispatch(LoginActions.userLogout());
+  };
+
   const onGoToUpdate = () => {
     pushScreen(props.componentId, 'UpdateProfile', '', '', false, 'chevron-left', false);
   };
@@ -84,13 +93,13 @@ const index = (props) => {
           </View>
           <Icon name="chevron-left" size={14} />
         </TouchableOpacity>
-        <View style={styles.itemChooses}>
+        <TouchableOpacity style={styles.itemChooses} onPress={() => onLogOut()}>
           <View style={styles.itemLeft}>
             <Icon style={styles.iconItemChooses} name="power-off" />
             <Text style={styles.txtItemChooses}>Đăng xuất</Text>
           </View>
           <Icon name="chevron-left" size={14} />
-        </View>
+        </TouchableOpacity>
       </View>
     </View>
   );

@@ -11,20 +11,28 @@ const login = (props) => {
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
+  const dataErrors = useSelector((state) => state.user.errorLogin);
   const onLoginToSignUp = () => {
     pushScreen(props.componentId, 'SignUp', '', '', false, 'chevron-left', false);
   };
   const onLoginToHome = () => {
     const dataLogin = {
       account: 'anh1999',
-      password: '123',
+      password: '',
     };
-    if (dataLogin.account === '' || dataLogin.password === '') {
-      alert('Bạn phải nhập đầy đủ thông tin !');
-    } else {
-      dispatch(LoginActions.userLogin(dataLogin));
-    }
+    // if (dataLogin.account === '' || dataLogin.password === '') {
+    //   alert('Bạn phải nhập đầy đủ thông tin !');
+    // } else {
+    dispatch(LoginActions.userLogin(dataLogin));
+    // }
   };
+
+  const onFocus = () => {
+    // do something
+    alert('123');
+    console.log(123);
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.layoutGiLo}>
@@ -38,12 +46,28 @@ const login = (props) => {
           onChangeText={(text) => setUserName(text)}
           placeholder="Tên tài khoản"
         />
+        {(() => {
+          if (dataErrors !== null) {
+            if (dataErrors.data.account !== null) {
+              return <Text style={styles.txtErrors}>{dataErrors.data.account}</Text>;
+            } else {
+              return <View />;
+            }
+          }
+        })()}
         <TextInput
           style={styles.input}
           onChangeText={(text) => setPassword(text)}
           placeholder="Mật khẩu"
           secureTextEntry={true}
         />
+        {(() => {
+          if (dataErrors !== null) {
+            if (dataErrors.data.password !== null) {
+              return <Text style={styles.txtErrors}>{dataErrors.data.password}</Text>;
+            }
+          }
+        })()}
       </View>
       <TouchableOpacity style={styles.btnLogin} onPress={() => onLoginToHome()}>
         <Text style={styles.txtLogin}>Đăng nhập</Text>
@@ -104,7 +128,11 @@ const styles = StyleSheet.create({
     width: 300,
     paddingLeft: 20,
     height: 40,
-    marginBottom: 20,
+    marginBottom: 15,
+  },
+  txtErrors: {
+    marginBottom: 10,
+    color: 'red',
   },
   btnLogin: {
     marginTop: 15,

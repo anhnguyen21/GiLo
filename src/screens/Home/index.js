@@ -11,6 +11,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import Video from 'react-native-video';
 import Carousel, { Pagination, ParallaxImage } from 'react-native-snap-carousel';
 const { width: width } = Dimensions.get('window');
 import shop from '../../assests/img/slide1.jpg';
@@ -22,12 +23,15 @@ import flowerImage from '../../assests/icon/flowers.png';
 import lipstickImage from '../../assests/icon/lipstick.png';
 import giftCard from '../../assests/icon/gift-card.png';
 import cake from '../../assests/icon/cake-slice.png';
+import event from '../../assests/img/event.jpg';
 import { pushScreen } from '../../navigation/pushScreen';
 import ItemCard from '../../components/ItemCard';
 import ItemCategories from '../../components/ItemCategories';
 import { useSelector, useDispatch } from 'react-redux';
 import DetailActions from '../../redux/DetailRedux/action';
 import CartAction from '../../redux/CartRedux/action';
+import bgEvent from '../../assests/img/bgEvent.jpg';
+import greetingCard from '../../assests/img/greetingCard.jpg';
 
 const data = {
   Sidser: [
@@ -59,6 +63,9 @@ const data = {
 };
 
 const index = (props) => {
+  const video = React.useRef(null);
+  const [img, setImg] = React.useState(false);
+  const [status, setStatus] = React.useState(true);
   const [entries, setEntries] = useState(data.Sidser);
   const [activeSlide, setActiveSlide] = useState(0);
   const dataProduct = useSelector((state) => state.home.responseDataType);
@@ -145,7 +152,7 @@ const index = (props) => {
           <ItemCategories icon={cake} title="Cake" />
           <ItemCategories icon={giftCard} title="Gift Card" />
         </View>
-        <Text style={styles.txtRow}>Sản phẩm nổi bật</Text>
+        <Text style={styles.txtRow}>Sản phẩm đề xuất</Text>
         <ScrollView style={styles.row} horizontal={true} showsHorizontalScrollIndicator={false}>
           {dataProduct.map((item, index) => {
             return (
@@ -162,8 +169,12 @@ const index = (props) => {
             );
           })}
         </ScrollView>
-        <Text style={styles.txtRow}>Mã giảm giá</Text>
-        <View style={styles.layoutDiscount}>
+        <Text style={styles.txtRow}>Phần quà dành tặng bạn</Text>
+        <View style={styles.layoutCard}>
+          <Image style={styles.imgCard} source={greetingCard} />
+        </View>
+        <Text style={styles.txtRow}>Tổ chức sự kiện</Text>
+        {/* <View style={styles.layoutDiscount}>
           <Image style={styles.imgDiscount} source={shop} />
           <View style={styles.layoutText}>
             <Text style={styles.txtTitle}>Giảm giá ngày valentines</Text>
@@ -172,6 +183,42 @@ const index = (props) => {
               <Text style={styles.txtBtnView}>Xem chi tiết</Text>
             </TouchableOpacity>
           </View>
+        </View> */}
+        <View>
+          {status ? (
+            <View style={styles.container}>
+              <View style={styles.layTxtOutEvent}>
+                <Text style={styles.txtTitleE}>Bạn muốn tạo bất ngờ?</Text>
+                <Text style={styles.txtDetailEvent}>Chúng tôi sẽ chuẩn bị thay bạn</Text>
+              </View>
+              <Image style={styles.imgE} source={bgEvent} />
+              <View style={styles.layoutButtons}>
+                <TouchableOpacity style={styles.btnPlay} onPress={() => setStatus(!status)}>
+                  <Icon fontSize={20} name="play" color="#CBCBC9" />
+                </TouchableOpacity>
+              </View>
+            </View>
+          ) : (
+            <View style={styles.container}>
+              <Video
+                ref={video}
+                source={{
+                  uri:
+                    'https://www.google.com/url?sa=i&url=https%3A%2F%2Fvideo.vietnamnet.vn%2Flim-tim-voi-video-toan-canh-khac-viet-quy-goi-cau-hon-ban-gai-a-62458.html&psig=AOvVaw1gAH5BNeL9VULYs09Eu6bd&ust=1616155414769000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCOjx8armue8CFQAAAAAdAAAAABAI',
+                }}
+                useNativeControls
+                resizeMode="contain"
+                isLooping
+                paused={status}
+                style={styles.backgroundVideo}
+              />
+              <View style={styles.layoutButtons}>
+                <TouchableOpacity style={styles.btnPlay} onPress={() => setStatus(!status)}>
+                  <Icon name="pause" fontSize={20} color="#CBCBC9" />
+                </TouchableOpacity>
+              </View>
+            </View>
+          )}
         </View>
         <Text style={styles.txtRow}>Sản phẩm nổi bật</Text>
         <ScrollView style={styles.row} horizontal={true} showsHorizontalScrollIndicator={false}>
@@ -190,10 +237,20 @@ const index = (props) => {
             );
           })}
         </ScrollView>
+        <View style={styles.layoutImgEvent}>
+          <View style={styles.layoutTxtEvent}>
+            <Text style={styles.txtTitleEvent}>Tổ chức sự kiện</Text>
+            <Text style={styles.txtDesEvent}>Bạn có thể tạo bất ngờ cho người thân</Text>
+            <Text style={styles.txtDesEvent}>Gắn kết yêu thương</Text>
+            <Text style={styles.txtDesEvent}>- Có nhiều chính sánh</Text>
+            <View style={styles.borderBottom} />
+          </View>
+          <Image style={styles.imgEvent} source={event} />
+        </View>
       </View>
-      <View style={styles.layoutCopyright}>
+      {/* <View style={styles.layoutCopyright}>
         <Text style={styles.txtCopyright}>NguyenTheAnh@PNV21</Text>
-      </View>
+      </View> */}
     </ScrollView>
   );
 };
@@ -375,5 +432,81 @@ const styles = StyleSheet.create({
   },
   txtCopyright: {
     color: '#fff',
+  },
+  layoutImgEvent: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 20,
+    marginLeft: 10,
+  },
+  imgEvent: {
+    width: 350,
+    height: 250,
+  },
+  layoutTxtEvent: {
+    position: 'absolute',
+    top: 50,
+    elevation: 100,
+  },
+  borderBottom: {
+    borderBottomColor: '#fff',
+    borderBottomWidth: 1,
+    paddingBottom: 20,
+    width: 100,
+  },
+  txtTitleEvent: {
+    color: '#fff',
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  txtDesEvent: {
+    color: '#fff',
+  },
+  ////////////////
+  layTxtOutEvent: {
+    position: 'absolute',
+    top: 40,
+    marginLeft: 20,
+    elevation: 100,
+  },
+  txtTitleE: {
+    width: 250,
+    color: '#fff',
+    fontWeight: 'bold',
+    fontSize: 20,
+  },
+  txtDetailEvent: {
+    color: '#fff',
+    fontSize: 18,
+  },
+  imgE: {
+    marginTop: 0,
+    marginLeft: 10,
+    width: 300,
+    height: 200,
+    borderRadius: 10,
+  },
+  backgroundVideo: {
+    width: 300,
+    height: 200,
+    marginLeft: 10,
+  },
+  layoutButtons: {
+    position: 'absolute',
+    marginLeft: 150,
+    marginTop: 120,
+  },
+  buttons: {
+    backgroundColor: '#CBCBC9',
+    color: '#000',
+  },
+  layoutCard: {
+    alignItems: 'center',
+    marginTop: 20,
+  },
+  imgCard: {
+    width: 300,
+    height: 250,
+    borderRadius: 10,
   },
 });

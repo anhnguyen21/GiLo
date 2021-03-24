@@ -15,7 +15,7 @@ import hoacuc from '../../assests/img/hoacuc.png';
 import ChatShop from '../../components/ChatShop';
 import ChatUser from '../../components/ChatUser';
 import ChatAction from '../../redux/ChatRedux/action';
-import Navigation from 'react-native-navigation';
+import { Navigation } from 'react-native-navigation';
 
 const index = (props) => {
   const [ContentTest, setContentTest] = useState('');

@@ -14,16 +14,32 @@ import { Navigation } from 'react-native-navigation';
 import ItemCart from '../../components/ItemCart';
 import { useDispatch, useSelector } from 'react-redux';
 import { pushScreen } from '../../navigation/pushScreen';
+import CartAction from '../../redux/CartRedux/action';
 
 const index = (props) => {
   useEffect(() => {
     totalPr();
   }, [totalPrice]);
+  const [promote, setPromote] = useState(false);
+  const [totalPromote, setTotalPromote] = useState(false);
+  const [txtpromote, setTxtPromote] = useState('');
   const dataCart = useSelector((state) => state.cart.responseCart);
+  const dataPromotion = useSelector((state) => state.promotion.responsePromotion);
   const [totalPrice, setTotalPrice] = useState(0);
   const dispatch = useDispatch();
   const backHome = () => {
     Navigation.pop(props.componentId);
+  };
+  const onCheckData = () => {
+    dataPromotion.map((item, index) => {
+      if (item.content == txtpromote) {
+        console.log(item.content);
+        setPromote(true);
+        setTotalPromote((totalPrice * item.promotion) / 100);
+      } else {
+        setPromote(false);
+      }
+    });
   };
   const onCheckOrder = () => {
     pushScreen(props.componentId, 'CheckOut', '', '', false, 'chevron-left', false);
@@ -36,6 +52,23 @@ const index = (props) => {
     setTotalPrice(total);
     console.log(total);
     return total;
+  };
+  const onAddProduct = (id) => {
+    console.log(id);
+    const dataLogin = {
+      id_user: 5,
+      id_pro: 2,
+    };
+    dispatch(CartAction.getAddCart(dataLogin));
+    totalPr();
+  };
+  const onDeleteProduct = (id) => {
+    const dataLogin = {
+      id_user: 5,
+      id_pro: 2,
+    };
+    dispatch(CartAction.getDeleteCart(dataLogin));
+    totalPr();
   };
   return (
     <ScrollView style={styles.conatiner}>
@@ -51,27 +84,39 @@ const index = (props) => {
             price={item.price}
             quantity={item.quantityCart}
             img={item.img}
+            data={item}
+            onAddProduct={onAddProduct}
+            onDeleteProduct={onDeleteProduct}
           />
         );
       })}
       <View style={styles.layoutTotal}>
         <View style={styles.layoutDiscount}>
-          <TextInput style={styles.ipDiscount} placeholder="Nhập mã giảm giá" />
-          <TouchableOpacity style={styles.btnDiscount}>
+          <TextInput
+            style={styles.ipDiscount}
+            onChangeText={(text) => setTxtPromote(text)}
+            placeholder="Nhập mã giảm giá"
+          />
+          <TouchableOpacity style={styles.btnDiscount} onPress={() => onCheckData()}>
             <Text style={styles.txtDiscount}>Áp dụng</Text>
           </TouchableOpacity>
         </View>
+        {promote && <Text style={styles.txtPromote}>Mã giảm giá không hợp lệ</Text>}
         <View style={styles.rowTotal}>
           <Text style={styles.txtPriceBasic}>Giá giảm phẩm:</Text>
           <Text style={styles.txtPriceTotal}>{totalPrice} Đ</Text>
         </View>
-        <View style={styles.rowTotal}>
-          <Text style={styles.txtPriceBasic}>Mã giảm giá</Text>
-          <Text style={styles.txtPriceTotal}>120000 Đ</Text>
-        </View>
+        {promote ? (
+          <View style={styles.rowTotal}>
+            <Text style={styles.txtPriceBasic}>Mã giảm giá</Text>
+            <Text style={styles.txtPriceTotal}>{totalPromote} Đ</Text>
+          </View>
+        ) : (
+          <View />
+        )}
         <View style={styles.rowTotal}>
           <Text style={styles.txtPriceBasic}>Tổng tiền:</Text>
-          <Text style={styles.txtPriceTotal}>{totalPrice} Đ</Text>
+          <Text style={styles.txtPriceTotal}>{totalPrice - totalPromote} Đ</Text>
         </View>
       </View>
       <TouchableOpacity style={styles.btnBuy} onPress={() => onCheckOrder()}>
@@ -168,5 +213,8 @@ const styles = StyleSheet.create({
   },
   txtDiscount: {
     color: '#fff',
+  },
+  txtPromote: {
+    color: 'red',
   },
 });

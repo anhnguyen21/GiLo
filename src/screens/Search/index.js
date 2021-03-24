@@ -18,7 +18,7 @@ const index = () => {
         <View style={styles.layoutSearch}>
           <Icon style={styles.iconMic} name="microphone" size={16} color="#FCC461" />
           <TextInput style={styles.inputSearch} placeholder="Tìm kiếm" />
-          <Icon style={styles.iconEraser} name="eraser" />
+          <Icon style={styles.iconEraser} name="search" />
           <Icon style={styles.iconSetting} name="sliders-h" />
         </View>
         <View>

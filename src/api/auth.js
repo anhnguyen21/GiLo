@@ -6,6 +6,7 @@ export async function userLoginApi(data) {
 }
 
 export async function userRegisterApi(data) {
+  console.log(data);
   return http.post('api/account', data);
 }
 
@@ -51,4 +52,8 @@ export async function getPromotionApi() {
 
 export async function getSearchApi() {
   return http.get('api/search');
+}
+
+export async function deleteToCartApi(data) {
+  return http.post('api/deleteproducttoorder', data);
 }

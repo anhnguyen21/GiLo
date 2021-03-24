@@ -1,100 +1,186 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useState } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View, TextInput } from 'react-native';
+import React, { useState, useRef } from 'react';
+import { StyleSheet, Text, TouchableOpacity, View, TextInput, ScrollView } from 'react-native';
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { Navigation } from 'react-native-navigation';
-// import { useDispatch, useSelector } from 'react-redux';
+import Moment from 'moment';
+import { Picker } from '@react-native-community/picker';
+import { useDispatch, useSelector } from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome';
-// import SignUpActions from '../../redux/AuthRedux/action';
+import SignUpActions from '../../redux/AuthRedux/action';
 
 const signup = (props) => {
+  const scrollRef = useRef();
+
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+  const showDatePicker = () => {
+    setDatePickerVisibility(true);
+  };
+
+  const hideDatePicker = () => {
+    setDatePickerVisibility(false);
+  };
+
+  const handleConfirm = (date) => {
+    setBrithday(Moment(date).format('d MMM YYYY'));
+    hideDatePicker();
+  };
   const [account, setUserName] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [address, setAddress] = useState('');
+  const [gender, setGender] = useState('0');
   const [phone, setPhone] = useState('');
   const [brithday, setBrithday] = useState('');
-  // const dispatch = useDispatch();
-  // const onSignUp = () => {
-  //   const dataSignUp = {
-  //     account: account,
-  //     firstName: firstName,
-  //     lastName: lastName,
-  //     email: email,
-  //     password: password,
-  //     address: address,
-  //     phone: phone,
-  //     gender: 1,
-  //   };
-  //   if (dataSignUp.account === '' || dataSignUp.password === '') {
-  //     alert('Bạn phải nhập đầy đủ thông tin !');
-  //   } else {
-  //     dispatch(SignUpActions.userSignUp(dataSignUp, onSuccess));
-  //   }
-  // };
-  // const onSuccess = () => {
-  //   Navigation.pop(props.componentId);
-  // };
-  // const backLogin = () => {
-  //   Navigation.pop(props.componentId);
-  // };
+  const dispatch = useDispatch();
+  const dataErrors = useSelector((state) => state.user.errorSignUp);
+  const onSignUp = () => {
+    const dataSignUp = {
+      account: account,
+      firstName: firstName,
+      lastName: lastName,
+      email: email,
+      password: password,
+      address: address,
+      phone: phone,
+      gender: gender,
+      brithday: brithday,
+    };
+    if (dataSignUp.account === '' || dataSignUp.password === '') {
+      alert('Bạn phải nhập đầy đủ thông tin !');
+    } else {
+      dispatch(SignUpActions.userSignUp(dataSignUp, onSuccess));
+    }
+  };
+  const onSuccess = () => {
+    Navigation.pop(props.componentId);
+  };
+  const backLogin = () => {
+    Navigation.pop(props.componentId);
+  };
   return (
     <View style={styles.container}>
-      <View style={styles.backLogin}>
-        <TouchableOpacity onPress={() => backLogin()}>
+      <TouchableOpacity style={styles.backLogin} onPress={() => backLogin()}>
+        <TouchableOpacity>
           <Icon name="chevron-left" size={18} />
         </TouchableOpacity>
         <Text style={styles.txtBack}>Đăng nhập</Text>
-      </View>
-      <View style={styles.rowIp}>
-        <TextInput
-          style={styles.input}
-          onChangeText={(text) => setUserName(text)}
-          placeholder="Tên tài khoản"
-        />
-        <TextInput
-          style={styles.input}
-          onChangeText={(text) => setFirstName(text)}
-          placeholder="Tên"
-        />
-        <TextInput
-          style={styles.input}
-          onChangeText={(text) => setLastName(text)}
-          placeholder="Họ"
-        />
-        <TextInput
-          style={styles.input}
-          onChangeText={(text) => setEmail(text)}
-          placeholder="Email"
-        />
-        <TextInput
-          style={styles.input}
-          onChangeText={(text) => setPassword(text)}
-          placeholder="Mật khẩu"
-          secureTextEntry={true}
-        />
-        <TextInput style={styles.input} placeholder="Nhập lại mật khẩu" secureTextEntry={true} />
-        <TextInput
-          style={styles.input}
-          onChangeText={(text) => setPhone(text)}
-          placeholder="Số điện thoại"
-        />
-        <TextInput
-          style={styles.input}
-          onChangeText={(text) => setAddress(text)}
-          placeholder="Địa chỉ"
-        />
-        <TextInput
-          style={styles.input}
-          onChangeText={(text) => setBrithday(text)}
-          placeholder="Ngày sinh"
-        />
-        <Text style={styles.txtConfirm}>Xác nhận đăng nhập</Text>
-        <TouchableOpacity style={styles.btnSignup} onPress={() => onSignUp()}>
-          <Text style={styles.txtSignup}>Đăng kí</Text>
-        </TouchableOpacity>
-      </View>
+      </TouchableOpacity>
+      <ScrollView persistentScrollbar={false}>
+        <View style={styles.rowIp}>
+          <TextInput
+            style={styles.input}
+            onChangeText={(text) => setUserName(text)}
+            placeholder="Tên tài khoản"
+          />
+          {(() => {
+            if (dataErrors !== null) {
+              if (dataErrors.data.account !== null) {
+                return <Text style={styles.txtErrors}>{dataErrors.data.account}</Text>;
+              }
+            }
+          })()}
+          <TextInput
+            style={styles.input}
+            onChangeText={(text) => setFirstName(text)}
+            placeholder="Tên"
+          />
+          {(() => {
+            if (dataErrors !== null) {
+              if (dataErrors.data.account !== null) {
+                return <Text style={styles.txtErrors}>{dataErrors.data.firstName}</Text>;
+              }
+            }
+          })()}
+          <TextInput
+            style={styles.input}
+            onChangeText={(text) => setLastName(text)}
+            placeholder="Họ"
+          />
+          {(() => {
+            if (dataErrors !== null) {
+              if (dataErrors.data.account !== null) {
+                return <Text style={styles.txtErrors}>{dataErrors.data.lastName}</Text>;
+              }
+            }
+          })()}
+          <TextInput
+            style={styles.input}
+            onChangeText={(text) => setEmail(text)}
+            placeholder="Email"
+          />
+          {(() => {
+            if (dataErrors !== null) {
+              if (dataErrors.data.account !== null) {
+                return <Text style={styles.txtErrors}>{dataErrors.data.email}</Text>;
+              }
+            }
+          })()}
+          <TextInput
+            style={styles.input}
+            onChangeText={(text) => setPassword(text)}
+            placeholder="Mật khẩu"
+            secureTextEntry={true}
+          />
+          {(() => {
+            if (dataErrors !== null) {
+              if (dataErrors.data.account !== null) {
+                return <Text style={styles.txtErrors}>{dataErrors.data.password}</Text>;
+              }
+            }
+          })()}
+          <TextInput style={styles.input} placeholder="Nhập lại mật khẩu" secureTextEntry={true} />
+          <TextInput
+            style={styles.input}
+            onChangeText={(text) => setPhone(text)}
+            placeholder="Số điện thoại"
+          />
+          <TextInput
+            style={styles.input}
+            onChangeText={(text) => setAddress(text)}
+            placeholder="Địa chỉ"
+          />
+          {(() => {
+            if (dataErrors !== null) {
+              if (dataErrors.data.account !== null) {
+                return <Text style={styles.txtErrors}>{dataErrors.data.address}</Text>;
+              }
+            }
+          })()}
+          <View style={styles.layoutDayGen}>
+            <TextInput
+              value={brithday}
+              style={[styles.input, { width: 180 }]}
+              onChangeText={(text) => setBrithday(text)}
+              placeholder="Ngày sinh"
+            />
+            <TouchableOpacity style={styles.layoutCalendar} onPress={showDatePicker}>
+              <Icon name="calendar" style={styles.iconCalendar} />
+            </TouchableOpacity>
+            <DateTimePickerModal
+              style={styles.layoutDate}
+              isVisible={isDatePickerVisible}
+              mode="date"
+              onConfirm={handleConfirm}
+              onCancel={hideDatePicker}
+            />
+            <Picker
+              selectedValue={gender}
+              style={styles.picker}
+              onValueChange={(itemValue, itemIndex) => setGender(itemValue)}
+            >
+              <Picker.Item label="Nam" value="0" />
+              <Picker.Item label="Nu" value="1" />
+            </Picker>
+          </View>
+          <Text style={styles.txtConfirm}>Xác nhận đăng nhập</Text>
+          <TouchableOpacity style={styles.btnSignup} onPress={() => onSignUp()}>
+            <Text style={styles.txtSignup}>Đăng kí</Text>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
     </View>
   );
 };
@@ -119,7 +205,8 @@ const styles = StyleSheet.create({
     marginLeft: 15,
   },
   rowIp: {
-    alignItems: 'center',
+    // alignItems: 'center',
+    marginLeft: 20,
   },
   input: {
     borderWidth: 2,
@@ -128,7 +215,11 @@ const styles = StyleSheet.create({
     width: 300,
     paddingLeft: 20,
     height: 40,
-    marginBottom: 20,
+    marginBottom: 15,
+  },
+  txtErrors: {
+    marginBottom: 10,
+    color: 'red',
   },
   txtConfirm: {
     marginTop: 20,
@@ -145,5 +236,25 @@ const styles = StyleSheet.create({
   },
   txtSignup: {
     fontSize: 16,
+  },
+  layoutCalendar: {
+    position: 'absolute',
+    marginTop: 10,
+    left: 150,
+    elevation: 100,
+  },
+  iconCalendar: {
+    fontSize: 20,
+    color: '#f070a9',
+  },
+  layoutDayGen: {
+    flexDirection: 'row',
+  },
+  picker: {
+    width: 100,
+    marginLeft: 10,
+    borderWidth: 2,
+    borderRadius: 10,
+    borderColor: '#f070a9',
   },
 });
