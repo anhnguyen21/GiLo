@@ -25,6 +25,7 @@ import PromoCodeDetails from '../screens/Profile/PromoteCodeDetail';
 import OrderDetail from '../screens/Profile/OrderDetail';
 import Address from '../screens/Map/address';
 import Search from '../screens/Search/index';
+import digitCode from '../screens/Authur/digitCode';
 
 function ReduxProvider(Component) {
   return (props) => (
@@ -154,5 +155,10 @@ export function registerScreens() {
     'MyOrder',
     () => ReduxProvider(MyOrder),
     () => MyOrder,
+  );
+  Navigation.registerComponent(
+    'digitCode',
+    () => ReduxProvider(digitCode),
+    () => digitCode,
   );
 }

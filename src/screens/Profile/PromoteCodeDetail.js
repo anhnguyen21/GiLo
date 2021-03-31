@@ -1,17 +1,18 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Image, Dimensions } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { Navigation } from 'react-native-navigation';
 import Promote from '../../assests/icon/Promote.png';
 import Moment from 'moment';
 import { useDispatch } from 'react-redux';
+const { width: width } = Dimensions.get('window');
 
 const PromoCodeDetails = (props) => {
   const dispatch = useDispatch();
   const backProfile = () => {
     Navigation.pop(props.componentId);
   };
-  const onSavePromote = () =>{
+  const onSavePromote = () => {
     // dispatch();
   };
   return (
@@ -48,7 +49,9 @@ const PromoCodeDetails = (props) => {
           <View style={styles.layoutRightPromo}>
             <Text style={styles.txtContentPromote}>{props.data.content}</Text>
             <View style={styles.layoutRight}>
-              <TouchableOpacity style={styles.txtCollect} onPress={() => onSavePromote()}>Nhận</TouchableOpacity>
+              <TouchableOpacity style={styles.txtCollect} onPress={() => onSavePromote()}>
+                <Text>Nhận</Text>
+              </TouchableOpacity>
               <Text style={styles.txtExp}>Exp: {Moment(props.data.exp).format('d MMM YYYY')}</Text>
             </View>
             <Image style={styles.image} source={Promote} />
@@ -102,11 +105,13 @@ const styles = StyleSheet.create({
     marginLeft: 15,
   },
   layoutCenter: {
-    padding: 30,
+    paddingTop: 30,
+    paddingBottom: 30,
   },
   layoutItem: {
     flexDirection: 'row',
     marginBottom: 20,
+    marginLeft: (width - 320) / 2,
   },
   layoutLeftPromo: {
     width: 120,
@@ -136,7 +141,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     padding: 10,
     alignItems: 'center',
-    width: 210,
+    width: 200,
     height: 120,
     borderBottomRightRadius: 10,
     borderTopRightRadius: 10,
@@ -169,6 +174,8 @@ const styles = StyleSheet.create({
   layoutItemDetail: {
     backgroundColor: '#fff',
     padding: 15,
+    marginLeft: 20,
+    marginRight: 20,
   },
   txtTitleDetail: {
     fontSize: 24,

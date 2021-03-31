@@ -12,6 +12,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import com.reactnativenavigation.NavigationApplication;
 import com.reactnativenavigation.react.NavigationReactNativeHost;
+import com.reactlibrary.RNMomosdkPackage;
+// import co.apptailor.googlesignin.RNGoogleSigninPackage;
 
 public class MainApplication extends NavigationApplication {
 
@@ -27,8 +29,12 @@ public class MainApplication extends NavigationApplication {
           @SuppressWarnings("UnnecessaryLocalVariable")
           List<ReactPackage> packages = new PackageList(this).getPackages();
           // Packages that cannot be autolinked yet can be added manually here, for example:
-          // packages.add(new MyReactNativePackage());
+          // packages.add(new RNGoogleSigninPackage());
           return packages;
+          // return Array.asList(
+          //   packages,
+          //   new PayZaloBridge()
+          // );
         }
 
         @Override

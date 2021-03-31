@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1057644567623",
+    "project_id": "gilo-25373",
+    "storage_bucket": "gilo-25373.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1057644567623:android:86a7302376e3379f206562",
+        "android_client_info": {
+          "package_name": "com.gilo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1057644567623-0bi9akp14qs59pa64iv7729kj14hlffs.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gilo",
+            "certificate_hash": "3fab7cbe9b758b9a6fb12a05cf93b39f85e0a767"
+          }
+        },
+        {
+          "client_id": "1057644567623-7taujj7rs3mbmcfkk6lqnp6bml8naiqg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gilo",
+            "certificate_hash": "f46513b3b6a22bcc7db242e8ce63964fdfb4937f"
+          }
+        },
+        {
+          "client_id": "1057644567623-qf2ug4dbdakeresdkebgkdis5c1bqaka.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDZeYmNo24G-uRy8DOApU52LMd2wE1Sd9s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1057644567623-qf2ug4dbdakeresdkebgkdis5c1bqaka.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

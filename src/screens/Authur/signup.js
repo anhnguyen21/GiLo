@@ -1,13 +1,25 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useState, useRef } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View, TextInput, ScrollView } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  Dimensions,
+  View,
+  TextInput,
+  ScrollView,
+} from 'react-native';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { Navigation } from 'react-native-navigation';
 import Moment from 'moment';
 import { Picker } from '@react-native-community/picker';
-import { useDispatch, useSelector } from 'react-redux';
+// import { useDispatch, useSelector } from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import SignUpActions from '../../redux/AuthRedux/action';
+import { pushScreen } from '../../navigation/pushScreen';
+
+import { firebase } from '@react-native-firebase/auth';
+const { width, height } = Dimensions.get('window');
 
 const signup = (props) => {
   const scrollRef = useRef();
@@ -34,8 +46,13 @@ const signup = (props) => {
   const [gender, setGender] = useState('0');
   const [phone, setPhone] = useState('');
   const [brithday, setBrithday] = useState('');
-  const dispatch = useDispatch();
-  const dataErrors = useSelector((state) => state.user.errorSignUp);
+  // const dispatch = useDispatch();
+  const dataErrors = null;
+  const [confirm, setConfirm] = useState(null);
+
+  const [code, setCode] = useState('');
+  // useSelector((state) => state.user.errorSignUp);
+  const appVerifier = window.recaptchaVerifier;
   const onSignUp = () => {
     const dataSignUp = {
       account: account,
@@ -48,14 +65,36 @@ const signup = (props) => {
       gender: gender,
       brithday: brithday,
     };
-    if (dataSignUp.account === '' || dataSignUp.password === '') {
-      alert('Bạn phải nhập đầy đủ thông tin !');
-    } else {
-      dispatch(SignUpActions.userSignUp(dataSignUp, onSuccess));
-    }
+    firebase
+      .auth()
+      .signInWithPhoneNumber('+84329488708', appVerifier)
+      .then((confirmResult) => {
+        setConfirm(confirmResult);
+        // props.navigation.navigate('OTP', { confirm: confirm });
+        pushScreen(props.componentId, 'digitCode', { confirm: confirmResult }, '', false, 'chevron-left', false);
+        console.log(confirmResult);
+      })
+      .catch((error) => {
+        alert(error.message);
+
+        console.log(error);
+      });
   };
   const onSuccess = () => {
-    Navigation.pop(props.componentId);
+    // Navigation.pop(props.componentId);
+    firebase
+      .auth()
+      .signInWithPhoneNumber('+84329488708', appVerifier)
+      .then((confirmResult) => {
+        setConfirm(confirmResult);
+        console.log(confirmResult);
+        pushScreen(props.componentId, 'digitCode', confirmResult, '', false, 'chevron-left', false);
+      })
+      .catch((error) => {
+        alert(error.message);
+
+        console.log(error);
+      });
   };
   const backLogin = () => {
     Navigation.pop(props.componentId);
@@ -175,10 +214,12 @@ const signup = (props) => {
               <Picker.Item label="Nu" value="1" />
             </Picker>
           </View>
-          <Text style={styles.txtConfirm}>Xác nhận đăng nhập</Text>
-          <TouchableOpacity style={styles.btnSignup} onPress={() => onSignUp()}>
-            <Text style={styles.txtSignup}>Đăng kí</Text>
-          </TouchableOpacity>
+          <View style={styles.layoutConfirm}>
+            <Text style={styles.txtConfirm}>Xác nhận đăng nhập</Text>
+            <TouchableOpacity style={styles.btnSignup} onPress={() => onSignUp()}>
+              <Text style={styles.txtSignup}>Đăng kí</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </ScrollView>
     </View>
@@ -197,7 +238,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignContent: 'center',
     alignItems: 'center',
-    marginBottom: 50,
+    marginBottom: 20,
   },
   txtBack: {
     fontSize: 18,
@@ -206,7 +247,7 @@ const styles = StyleSheet.create({
   },
   rowIp: {
     // alignItems: 'center',
-    marginLeft: 20,
+    // marginLeft: (width - 300) / 2,
   },
   input: {
     borderWidth: 2,
@@ -249,6 +290,9 @@ const styles = StyleSheet.create({
   },
   layoutDayGen: {
     flexDirection: 'row',
+  },
+  layoutConfirm: {
+    alignItems: 'center',
   },
   picker: {
     width: 100,

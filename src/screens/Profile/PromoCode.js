@@ -1,11 +1,12 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Image, Dimensions } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { Navigation } from 'react-native-navigation';
 import Promote from '../../assests/icon/Promote.png';
 import { pushScreen } from '../../navigation/pushScreen';
 import { useSelector } from 'react-redux';
 import Moment from 'moment';
+const { width: width } = Dimensions.get('window');
 
 const PromoCode = (props) => {
   const dataPromotion = useSelector((state) => state.promotion.responsePromotion);
@@ -144,11 +145,13 @@ const styles = StyleSheet.create({
     marginLeft: 15,
   },
   layoutCenter: {
-    padding: 30,
+    paddingTop: 30,
+    paddingBottom: 30,
   },
   layoutItem: {
     flexDirection: 'row',
     marginBottom: 20,
+    marginLeft: (width - 320) / 2,
   },
   layoutLeftPromo: {
     width: 120,
@@ -178,7 +181,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     padding: 10,
     alignItems: 'center',
-    width: 210,
+    width: 200,
     height: 120,
     borderBottomRightRadius: 10,
     borderTopRightRadius: 10,

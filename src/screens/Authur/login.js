@@ -6,8 +6,65 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { homeScreen, pushScreen } from '../../navigation/pushScreen';
 import { useDispatch, useSelector } from 'react-redux';
 import LoginActions from '../../redux/AuthRedux/action';
+import { LoginButton, AccessToken } from 'react-native-fbsdk';
+import firebase from '@react-native-firebase/app';
+import auth from '@react-native-firebase/auth';
+import SignUpActions from '../../redux/AuthRedux/action';
+import {
+  GoogleSignin,
+  GoogleSigninButton,
+  statusCodes,
+} from '@react-native-community/google-signin';
+import { GoogleLogin } from 'react-google-login';
 
 const login = (props) => {
+  const [state, setstate] = useState('');
+  const [account, setAccount] = useState('');
+  const [isSigninInProgress, setisSigninInProgress] = useState('');
+  const _signIn = async () => {
+    console.log('123');
+    GoogleSignin.configure({
+      scopes: [],
+      webClientId: '1057644567623-qf2ug4dbdakeresdkebgkdis5c1bqaka.apps.googleusercontent.com',
+      androidClientId: '1057644567623-qf2ug4dbdakeresdkebgkdis5c1bqaka.apps.googleusercontent.com',
+      offlineAccess: false,
+      forceConsentPrompt: true,
+    });
+    await GoogleSignin.hasPlayServices();
+    const userInfo = await GoogleSignin.signIn();
+    console.log('step 1');
+    const dataSignUp = {
+      account: userInfo.user.name,
+      firstName: userInfo.user.givenName,
+      lastName: userInfo.user.familyName,
+      email: userInfo.user.email,
+      password: '123',
+      address: userInfo.user.id,
+      phone: '0123456789',
+      gender: '1',
+      brithday: '10/10',
+      img: userInfo.user.photo,
+    };
+    console.log(dataSignUp);
+    await dispatch(SignUpActions.userSignUp(dataSignUp, onSuccess()));
+    const dataLogin = {
+      account: userInfo.user.name,
+      password: '123',
+    };
+    dispatch(LoginActions.userLogin(dataLogin));
+    console.log(userInfo);
+  };
+
+  const onSuccess = () => {
+    console.log('login with google');
+    // console.log(state);
+    // const dataLogin = {
+    //   account: state,
+    //   password: '123',
+    // };
+    // dispatch(LoginActions.userLogin(dataLogin));
+  };
+
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
@@ -16,21 +73,12 @@ const login = (props) => {
     pushScreen(props.componentId, 'SignUp', '', '', false, 'chevron-left', false);
   };
   const onLoginToHome = () => {
+    console.log('login google');
     const dataLogin = {
       account: 'anh1999',
-      password: '',
+      password: '123',
     };
-    // if (dataLogin.account === '' || dataLogin.password === '') {
-    //   alert('Bạn phải nhập đầy đủ thông tin !');
-    // } else {
     dispatch(LoginActions.userLogin(dataLogin));
-    // }
-  };
-
-  const onFocus = () => {
-    // do something
-    alert('123');
-    console.log(123);
   };
 
   return (
@@ -81,16 +129,38 @@ const login = (props) => {
       <Text style={styles.txtOther}>or</Text>
       <View style={styles.layoutIcon}>
         <View style={[styles.itemBorder, { backgroundColor: '#355295' }]}>
-          <Icon styles={styles.iconBorder} name="facebook" size={20} color="#fff" />
+          <LoginButton
+            style={{
+              width: 120,
+              height: 45,
+              alignItems: 'center',
+              justifyContent: 'center',
+              paddingTop: 20,
+            }}
+            onLoginFinished={(error, result) => {
+              console.log(result);
+              if (error) {
+                console.log('login has error: ' + result.error);
+              } else if (result.isCancelled) {
+                console.log('login is cancelled.');
+              } else {
+                AccessToken.getCurrentAccessToken().then((data) => {
+                  console.log(data);
+                  console.log(data.accessToken.toString());
+                  console.log('1234');
+                });
+              }
+            }}
+            onLogoutFinished={() => console.log('logout.')}
+          />
         </View>
         <View style={[styles.itemBorder, { backgroundColor: '#e5423a' }]}>
-          <Icon styles={styles.iconBorder} name="envelope" size={20} color="#fff" />
-        </View>
-        <View style={[styles.itemBorder, { backgroundColor: '#56a5e2' }]}>
-          <Icon styles={styles.iconBorder} name="twitter" size={20} color="#fff" />
-        </View>
-        <View style={[styles.itemBorder, { backgroundColor: '#355295' }]}>
-          <Icon styles={styles.iconBorder} name="instagram" size={20} color="#fff" />
+          <GoogleSigninButton
+            style={{ width: 150, height: 55 }}
+            size={GoogleSigninButton.Size.Wide}
+            color={GoogleSigninButton.Color.Dark}
+            onPress={() => _signIn()}
+          />
         </View>
       </View>
     </View>
@@ -171,7 +241,7 @@ const styles = StyleSheet.create({
   },
   layoutIcon: {
     marginTop: 15,
-    width: 150,
+    width: 180,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },

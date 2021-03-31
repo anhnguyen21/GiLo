@@ -1,18 +1,35 @@
-import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image, Dimensions } from 'react-native';
+import React, { useState } from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Image,
+  Dimensions,
+  ScrollView,
+  Platform,
+  Alert,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import AlertMessage from '../../components/AlertMessage';
 import hoacuc from '../../assests/img/hoacuc.png';
 import imgProfile from '../../assests/img/imgProfile.jpg';
 import { pushScreen } from '../../navigation/pushScreen';
 import { useDispatch, useSelector } from 'react-redux';
 import LoginActions from '../../redux/AuthRedux/action';
 const { width: width } = Dimensions.get('window');
+import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
+import storage from '@react-native-firebase/storage';
 
 const index = (props) => {
+  const [modal, setModal] = useState(false);
+  const [image, setImage] = useState(hoacuc);
+  const [uploading, setUploading] = useState(false);
+  const [transferred, setTransferred] = useState(0);
   const dispatch = useDispatch();
 
   const onLogOut = () => {
-    console.log("1234");
+    console.log('1234');
     dispatch(LoginActions.userLogout());
   };
 
@@ -35,15 +52,107 @@ const index = (props) => {
     pushScreen(props.componentId, 'Address', '', '', false, 'chevron-left', false);
   };
 
+  const selectLaunchCamera = async () => {
+    const options = {
+      maxWidth: 2000,
+      maxHeight: 2000,
+      storageOptions: {
+        skipBackup: true,
+        path: 'images',
+      },
+    };
+    launchCamera(options, (response) => {
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      } else if (response.customButton) {
+        console.log('User tapped custom button: ', response.customButton);
+      } else {
+        const source = { uri: response.uri };
+        console.log(source);
+        setImage(source);
+        // uploadImage();
+      }
+    });
+  };
+
+  const selectLibrary = async () => {
+    const options = {
+      maxWidth: 2000,
+      maxHeight: 2000,
+      storageOptions: {
+        skipBackup: true,
+        path: 'images',
+      },
+    };
+    launchImageLibrary(options, (response) => {
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      } else if (response.customButton) {
+        console.log('User tapped custom button: ', response.customButton);
+      } else {
+        const source = { uri: response.uri };
+        console.log(source);
+        setImage(source);
+        // uploadImage();
+      }
+    });
+  };
+
+  const uploadImage = async () => {
+    console.log('upload image');
+    const { uri } = image;
+    console.log(uri);
+    const filename = uri.substring(uri.lastIndexOf('/') + 1);
+    const uploadUri = Platform.OS === 'android' ? uri.replace('file://', '') : uri;
+    console.log(uploadUri);
+    setUploading(true);
+    setTransferred(0);
+    const task = storage().ref(filename).putFile(uploadUri);
+    try {
+      await task;
+      setUploading(false);
+      alert('success');
+    } catch (e) {
+      console.error(e);
+    }
+    // setUploading(false);
+    Alert.alert('Photo uploaded!', 'Your photo has been uploaded to Firebase Cloud Storage!');
+    setImage(null);
+  };
+
+  const closeModal = () => {
+    setModal(true);
+  };
+
   return (
     <View>
+      {modal && (
+        <AlertMessage
+          isTwoBtn={true}
+          title="Ban có thể lấy ảnh từ"
+          textFirstBtn="Camera"
+          textSecondBtn="Thư viện"
+          camera={selectLaunchCamera}
+          library={selectLibrary}
+        />
+      )}
       <Image style={styles.imgProfile} source={imgProfile} />
       <View style={styles.container}>
         <View style={styles.backLogin}>
           <Text style={styles.txtBack}>Thông tin cá nhân</Text>
         </View>
         <View style={styles.layoutProfile}>
-          <Image style={styles.img} source={hoacuc} />
+          <Image style={styles.img} source={image} />
+          <TouchableOpacity style={styles.layoutEdit} onPress={closeModal}>
+            <Icon name="edit" size={20} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={uploadImage}>
+            <Icon name="plus" size={20} />
+          </TouchableOpacity>
           <View style={styles.layoutName}>
             <Text style={styles.txtName}>Nguyen The Anh</Text>
             <Text style={styles.txtId}>ID: 10101999</Text>
@@ -65,6 +174,13 @@ const index = (props) => {
         </View>
       </View>
       <View style={[styles.layoutItemChooses]}>
+        <TouchableOpacity style={styles.itemChooses} onPress={() => onLogOut()}>
+          <View style={styles.itemLeft}>
+            <Icon style={styles.iconItemChooses} name="power-off" />
+            <Text style={styles.txtItemChooses}>Đăng xuất</Text>
+          </View>
+          <Icon name="chevron-left" size={14} />
+        </TouchableOpacity>
         <TouchableOpacity style={styles.itemChooses} onPress={() => onGoToUpdate()}>
           <View style={styles.itemLeft}>
             <Icon style={styles.iconItemChooses} name="user" />
@@ -136,6 +252,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginLeft: 20,
   },
+  layoutEdit: {
+    position: 'absolute',
+    left: 80,
+    top: 80,
+    elevation: 999,
+  },
   img: {
     width: 100,
     height: 100,
@@ -165,7 +287,7 @@ const styles = StyleSheet.create({
     padding: 30,
     position: 'absolute',
     marginTop: 180,
-    marginLeft: 20,
+    marginLeft: (width - 40 - 300) / 2,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -187,7 +309,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 30,
     position: 'absolute',
-    marginLeft: 40,
+    marginLeft: (width - 300) / 2,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,

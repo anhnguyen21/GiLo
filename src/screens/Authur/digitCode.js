@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -9,9 +9,33 @@ import {
   Dimensions,
 } from 'react-native';
 import MailBox from '../../assests/icon/mailbox.png';
+import { Navigation } from 'react-native-navigation';
 const { width, height } = Dimensions.get('window');
 
-const digitCode = () => {
+const digitCode = (props) => {
+  const [firtNumber, setFirtNumber] = useState('');
+  const [secondNumber, setSecondNumber] = useState('');
+  const [thirdNumber, setThirdNumber] = useState('');
+  const [fourNumber, setFourNumber] = useState('');
+  const [fiveNumber, setFiveNumber] = useState('');
+  const [sixNumber, setSixNumber] = useState('');
+  const confirm = props.confirm;
+  console.log(props.confirm);
+  console.log(confirm);
+  console.log('confirm' + props.confirmResult.confirm);
+  const OtpVerify = async () => {
+    try {
+      console.log('confirm' + confirm);
+      console.log(firtNumber + secondNumber + thirdNumber + fourNumber + fiveNumber + sixNumber);
+      let data = await confirm.confirm(
+        firtNumber + secondNumber + thirdNumber + fourNumber + fiveNumber + sixNumber,
+      );
+      Navigation.pop(props.componentId);
+      console.log('data', data);
+    } catch (error) {
+      console.log('Invalid code.');
+    }
+  };
   return (
     <View style={styles.container}>
       <View style={styles.layoutContent}>
@@ -20,10 +44,36 @@ const digitCode = () => {
           <Image style={styles.imgContent} source={MailBox} />
         </View>
         <View style={styles.layoutCode}>
-          <TextInput style={styles.ipCode} placeholder="_" />
-          <TextInput style={styles.ipCode} placeholder="_" />
-          <TextInput style={styles.ipCode} placeholder="_" />
-          <TextInput style={styles.ipCode} placeholder="_" />
+          <TextInput
+            style={styles.ipCode}
+            placeholder="_"
+            onChangeText={(text) => setFirtNumber(text)}
+          />
+          <TextInput
+            style={styles.ipCode}
+            placeholder="_"
+            onChangeText={(text) => setSecondNumber(text)}
+          />
+          <TextInput
+            style={styles.ipCode}
+            placeholder="_"
+            onChangeText={(text) => setThirdNumber(text)}
+          />
+          <TextInput
+            style={styles.ipCode}
+            placeholder="_"
+            onChangeText={(text) => setFourNumber(text)}
+          />
+          <TextInput
+            style={styles.ipCode}
+            placeholder="_"
+            onChangeText={(text) => setFiveNumber(text)}
+          />
+          <TextInput
+            style={styles.ipCode}
+            placeholder="_"
+            onChangeText={(text) => setSixNumber(text)}
+          />
         </View>
         <View style={styles.layoutForget}>
           <Text style={styles.txtForget}>Bạn chưa nhận được mã? </Text>
@@ -31,7 +81,7 @@ const digitCode = () => {
             <Text style={styles.txtBtnTake}>Lấy mã</Text>
           </TouchableOpacity>
         </View>
-        <TouchableOpacity style={styles.layoutBtn}>
+        <TouchableOpacity style={styles.layoutBtn} onPress={() => OtpVerify()}>
           <Text style={styles.txtCheck}>Kiểm tra</Text>
         </TouchableOpacity>
       </View>
@@ -86,8 +136,8 @@ const styles = StyleSheet.create({
   ipCode: {
     borderWidth: 1,
     borderColor: '#f070a9',
-    width: 45,
-    height: 45,
+    width: 35,
+    height: 35,
     borderRadius: 10,
     alignItems: 'center',
     justifyContent: 'center',

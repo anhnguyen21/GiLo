@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   btnDelete: {
-    backgroundColor: '#ffc25d',
+    backgroundColor: '#f070a9',
     width: 30,
     height: 30,
     alignItems: 'center',

@@ -1,28 +1,139 @@
-import React from 'react';
-import { StyleSheet, Text, View, Dimensions, Image } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
-// const width = Dimensions.get('window').width;
-// const height = Dimensions.get('window').height;
-import bg from './src/assests/img/bg1.jpg';
-const { width, height } = Dimensions.get('window');
+import React, { useState } from 'react';
+import {
+  View,
+  SafeAreaView,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  Platform,
+  Alert,
+  Image,
+} from 'react-native';
+import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
+// import ImagePicker from 'react-native-image-picker';
+import storage from '@react-native-firebase/storage';
+// import * as react-native-progress from 'react-native-progress';
+import { firebase } from '@react-native-firebase/app';
 
-const App = () => {
+export default function UploadScreen() {
+  const [image, setImage] = useState(null);
+  const [uploading, setUploading] = useState(false);
+  const [transferred, setTransferred] = useState(0);
+
+  const selectImage = async () => {
+    const options = {
+      maxWidth: 2000,
+      maxHeight: 2000,
+      storageOptions: {
+        skipBackup: true,
+        path: 'images',
+      },
+    };
+    launchCamera(options, (response) => {
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      } else if (response.customButton) {
+        console.log('User tapped custom button: ', response.customButton);
+      } else {
+        const source = { uri: response.uri };
+        // console.log(source);
+        setImage(source);
+      }
+    });
+    // return url;
+  };
+
+  const uploadImage = async () => {
+    const { uri } = image;
+    const filename = uri.substring(uri.lastIndexOf('/') + 1);
+    const uploadUri = Platform.OS === 'android' ? uri.replace('file://', '') : uri;
+    console.log(uploadUri);
+    setUploading(true);
+    setTransferred(0);
+    const task = storage().ref(filename).putFile(uploadUri);
+    // set progress state
+    // task.on('state_changed', (snapshot) => {
+    //   setTransferred(Math.round(snapshot.bytesTransferred / snapshot.totalBytes) * 10000);
+    // });
+    try {
+      await task;
+      setUploading(false);
+      alert('success');
+    } catch (e) {
+      console.error(e);
+    }
+    // setUploading(false);
+    Alert.alert('Photo uploaded!', 'Your photo has been uploaded to Firebase Cloud Storage!');
+    console.log(getImage());
+    setImage(null);
+  };
+  async function getImage() {
+    const url = await storage()
+      .ref('rn_image_picker_lib_temp_a0093525-f255-498e-af53-a1c97e44440d.jpg')
+      .getDownloadURL();
+    console.log(url);
+    return url;
+  }
   return (
-    <View style={styles.container}>
-      <Image style={styles.bgImage} source={bg} />
-    </View>
+    <SafeAreaView style={styles.container}>
+      <TouchableOpacity style={styles.selectButton} onPress={selectImage}>
+        <Text style={styles.buttonText}>Pick an image</Text>
+      </TouchableOpacity>
+      <View style={styles.imageContainer}>
+        {image !== null ? <Image source={{ uri: image.uri }} style={styles.imageBox} /> : null}
+        {uploading ? (
+          <View style={styles.progressBarContainer}>
+            {/* <Progress.Bar progress={transferred} width={300} /> */}
+          </View>
+        ) : (
+          <TouchableOpacity style={styles.uploadButton} onPress={uploadImage}>
+            <Text style={styles.buttonText}>Upload image</Text>
+          </TouchableOpacity>
+        )}
+      </View>
+    </SafeAreaView>
   );
-};
-
-export default App;
-
+}
 const styles = StyleSheet.create({
   container: {
-    width: width,
-    height: height,
+    flex: 1,
+    alignItems: 'center',
+    backgroundColor: '#bbded6',
   },
-  bgImage: {
-    width: width,
-    height: height + 42,
+  selectButton: {
+    borderRadius: 5,
+    width: 150,
+    height: 50,
+    backgroundColor: '#8ac6d1',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  uploadButton: {
+    borderRadius: 5,
+    width: 150,
+    height: 50,
+    backgroundColor: '#ffb6b9',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 20,
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  imageContainer: {
+    marginTop: 30,
+    marginBottom: 50,
+    alignItems: 'center',
+  },
+  progressBarContainer: {
+    marginTop: 20,
+  },
+  imageBox: {
+    width: 300,
+    height: 300,
   },
 });

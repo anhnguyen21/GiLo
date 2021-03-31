@@ -181,7 +181,7 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   btnDiscount: {
-    backgroundColor: '#ffc25d',
+    backgroundColor: '#f070a9',
     alignItems: 'center',
     justifyContent: 'center',
     shadowColor: '#000',
@@ -199,7 +199,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     width: 300,
     height: 50,
-    backgroundColor: '#ffc25d',
+    backgroundColor: '#f070a9',
     alignItems: 'center',
     justifyContent: 'center',
     shadowColor: '#000',

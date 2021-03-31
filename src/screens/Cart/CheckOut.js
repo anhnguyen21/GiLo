@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
   },
   txtAddAddress: {
     fontWeight: 'bold',
-    color: '#40aa54',
+    color: '#f070a9',
   },
   layoutItemAddress: {
     flexDirection: 'row',
@@ -217,7 +217,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#40aa54',
+    backgroundColor: '#f070a9',
   },
   txtPayNow: {
     color: '#fff',
