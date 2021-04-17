@@ -15,6 +15,8 @@ import ItemCart from '../../components/ItemCart';
 import { useDispatch, useSelector } from 'react-redux';
 import { pushScreen } from '../../navigation/pushScreen';
 import CartAction from '../../redux/CartRedux/action';
+import EmptyCart from './EmptyCart';
+const _ = require('lodash');
 
 const index = (props) => {
   useEffect(() => {
@@ -24,6 +26,10 @@ const index = (props) => {
   const [totalPromote, setTotalPromote] = useState(false);
   const [txtpromote, setTxtPromote] = useState('');
   const dataCart = useSelector((state) => state.cart.responseCart);
+  var data = [];
+  if (dataCart) {
+    data = dataCart;
+  }
   const dataPromotion = useSelector((state) => state.promotion.responsePromotion);
   const [totalPrice, setTotalPrice] = useState(0);
   const dispatch = useDispatch();
@@ -47,7 +53,7 @@ const index = (props) => {
   const totalPr = () => {
     var total = 0;
     dataCart.map((item, index) => {
-      total = total + item.price * item.quantityCart;
+      total = total + item.price * item.quantitycart;
     });
     setTotalPrice(total);
     console.log(total);
@@ -76,20 +82,24 @@ const index = (props) => {
         <Icon style={styles.iconBack} name="chevron-left" size={18} />
         <Text style={styles.txtTitle}>Giỏ hàng</Text>
       </TouchableOpacity>
-      {dataCart.map((item, index) => {
-        return (
-          <ItemCart
-            key={index}
-            name={item.name}
-            price={item.price}
-            quantity={item.quantityCart}
-            img={item.img}
-            data={item}
-            onAddProduct={onAddProduct}
-            onDeleteProduct={onDeleteProduct}
-          />
-        );
-      })}
+      {!_.isEmpty(data) ? (
+        dataCart.map((item, index) => {
+          return (
+            <ItemCart
+              key={index}
+              name={item.name}
+              price={item.price}
+              quantity={item.quantitycart}
+              img={item.img}
+              data={item}
+              onAddProduct={onAddProduct}
+              onDeleteProduct={onDeleteProduct}
+            />
+          );
+        })
+      ) : (
+        <EmptyCart />
+      )}
       <View style={styles.layoutTotal}>
         <View style={styles.layoutDiscount}>
           <TextInput

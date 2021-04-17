@@ -1,12 +1,13 @@
 import Immutable from 'seamless-immutable';
 import { makeReducerCreator } from '../../Utils/Utils';
-import { LoginTypes, SignUpTypes } from './action';
+import { LoginTypes, SignUpTypes, ProfileTypes } from './action';
 
 export const INITIAL_STATE = Immutable({
   loading: false,
   response: null,
   errorLogin: null,
   errorSignUp: null,
+  dataProfile: null,
   token: null,
   type: '',
 });
@@ -53,6 +54,24 @@ export const userSignUpFailure = (state, { error }) =>
     type: 'failure',
   });
 
+export const userProfile = (state, { response }) =>
+  state.merge({ loading: true, errorSignUp: null, type: 'profile' });
+
+export const userProfileSuccess = (state, { response }) =>
+  state.merge({
+    loading: false,
+    errorSignUp: null,
+    token: response.data.id,
+    dataProfile: response.data,
+    type: 'profile up success',
+  });
+export const userProfileFailure = (state, { error }) =>
+  state.merge({
+    loading: false,
+    errorSignUp: error,
+    type: 'failure',
+  });
+
 const reducer = makeReducerCreator(INITIAL_STATE, {
   [LoginTypes.USER_LOGIN]: userLogin,
   [LoginTypes.USER_LOGIN_SUCCESS]: userLoginSuccess,
@@ -61,6 +80,10 @@ const reducer = makeReducerCreator(INITIAL_STATE, {
   [SignUpTypes.USER_SIGNUP]: userSignUp,
   [SignUpTypes.USER_SIGNUP_SUCCESS]: userSignUpSuccess,
   [SignUpTypes.USER_SIGNUP_FAILURE]: userSignUpFailure,
+
+  [ProfileTypes.USER_PROFILE]: userProfile,
+  [ProfileTypes.USER_PROFILE_SUCCESS]: userProfileSuccess,
+  [ProfileTypes.USER_PROFILE_FAILURE]: userProfileFailure,
 });
 
 export default reducer;

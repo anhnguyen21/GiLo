@@ -19,8 +19,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import ReviewActions from '../../redux/ReviewRedux/action';
 import CartAction from '../../redux/CartRedux/action';
 import ChatAction from '../../redux/ChatRedux/action';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const index = (props) => {
+  console.log(props.data);
   const prduct = useSelector((state) => state.detail.responseProductDetail);
   const dispatch = useDispatch();
   const backHome = () => {
@@ -33,29 +35,43 @@ const index = (props) => {
     pushScreen(props.componentId, 'Review', '', '', false, 'chevron-left', false);
   };
   const AddToCart = (id) => {
+    console.log(props.data);
     const dataLogin = {
-      id_user: props.user,
+      id_user: 2,
       id_pro: id,
     };
     dispatch(CartAction.getAddCart(dataLogin));
   };
   const MessageToAdmin = (id) => {
     const dataChat = {
-      id_user: 2,
+      id_user: props.data,
       id_admin: 9,
     };
     dispatch(ChatAction.getChat(dataChat, onSuccessChat));
+    pushScreen(props.componentId, 'Chat', '', '', false, 'chevron-left', false);
+  };
+  const getIdUser = async () => {
+    try {
+      return await AsyncStorage.getItem('id_token');
+    } catch (e) {
+      console.log('Can not take data token');
+    }
   };
   const onSuccessChat = () => {
-    pushScreen(props.componentId, 'Chat', '', '', false, 'chevron-left', false);
+    // pushScreen(props.componentId, 'Chat', '', '', false, 'chevron-left', false);
   };
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       <View style={styles.layoutTop}>
-        <TouchableOpacity style={styles.layoutTopBack} onPress={() => backHome()}>
-          <Icon style={styles.iconBack} name="chevron-left" size={18} />
-          <Text style={styles.txtTitle}>{prduct.name}</Text>
-        </TouchableOpacity>
+        <View style={styles.topDetail}>
+          <TouchableOpacity style={styles.layoutTopBack} onPress={() => backHome()}>
+            <Icon style={styles.iconBack} name="chevron-left" size={18} />
+            <Text style={styles.txtTitle}>{prduct.name}</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => MessageToAdmin(prduct.id)}>
+            <Icon name="comment-dots" color="#f070a9" size={24} />
+          </TouchableOpacity>
+        </View>
         <View style={styles.layoutInformal}>
           <View style={styles.layoutText}>
             <View style={styles.columnText}>
@@ -118,9 +134,9 @@ const index = (props) => {
           <Text style={styles.txtBuy}>Mua hàng</Text>
         </TouchableOpacity>
       </View>
-      <TouchableOpacity style={styles.layoutMes} onPress={() => MessageToAdmin(prduct.id)}>
+      {/* <TouchableOpacity style={styles.layoutMes} onPress={() => MessageToAdmin(prduct.id)}>
         <Icon name="comment-dots" color="#fff" size={16} />
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </ScrollView>
   );
 };
@@ -135,6 +151,12 @@ const styles = StyleSheet.create({
     width: width,
     height: width - 50,
     backgroundColor: '#f5f6f2',
+  },
+  topDetail: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingRight: 40,
   },
   layoutTopBack: {
     marginTop: 20,

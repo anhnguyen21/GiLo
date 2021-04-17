@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   StyleSheet,
   Text,
@@ -8,6 +8,7 @@ import {
   Image,
   TextInput,
   ScrollView,
+  Dimensions,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { useSelector, useDispatch } from 'react-redux';
@@ -16,12 +17,20 @@ import ChatShop from '../../components/ChatShop';
 import ChatUser from '../../components/ChatUser';
 import ChatAction from '../../redux/ChatRedux/action';
 import { Navigation } from 'react-native-navigation';
+const { width, height } = Dimensions.get('window');
+const _ = require('lodash');
 
 const index = (props) => {
+  const scrollViewRef = useRef();
   const [ContentTest, setContentTest] = useState('');
   const [Chat, setChatRealtime] = useState(useSelector((state) => state.chat.responseProductChat));
   const chatUser = useSelector((state) => state.chat.responseProductChat);
   const dispatch = useDispatch();
+
+  var data = [];
+  if (chatUser) {
+    data = chatUser;
+  }
   const insertMessage = () => {
     const dataChat = {
       id_user: 2,
@@ -44,12 +53,12 @@ const index = (props) => {
   const onSuccessChat = () => {};
   useEffect(() => {
     setChatRealtime(chatUser);
-  }, [chatUser]);
+  }, [chatUser, dispatch]);
   const backProfile = () => {
     Navigation.pop(props.componentId);
   };
   return (
-    <View>
+    <View style={styles.contain}>
       <View style={styles.layoutTop}>
         <View style={styles.container}>
           <TouchableOpacity style={styles.backLogin} onPress={() => backProfile()}>
@@ -60,11 +69,32 @@ const index = (props) => {
           </TouchableOpacity>
         </View>
       </View>
-      <ScrollView style={styles.layoutContent} persistentScrollbar={true}>
+      <ScrollView
+        style={styles.layoutContent}
+        ref={scrollViewRef}
+        onContentSizeChange={() => scrollViewRef.current.scrollToEnd({ animated: true })}
+      >
         <View style={styles.layoutDay}>
           <Text style={styles.txtTime}>Hôm nay, 10:20 AM</Text>
         </View>
-        {Chat.map((item, index) => {
+        {!_.isEmpty(data) ? (
+          Chat.map((item, index) => {
+            return (
+              <View key={index}>
+                {(() => {
+                  if (item.id_role == 0) {
+                    return <ChatUser content={item.content} />;
+                  } else {
+                    return <ChatShop content={item.content} />;
+                  }
+                })()}
+              </View>
+            );
+          })
+        ) : (
+          <View />
+        )}
+        {/* {Chat.map((item, index) => {
           return (
             <View key={index}>
               {(() => {
@@ -76,9 +106,10 @@ const index = (props) => {
               })()}
             </View>
           );
-        })}
+        })} */}
         <View style={styles.layoutSpace} />
       </ScrollView>
+      {/* <ScrollView> */}
       <View style={styles.layoutInput}>
         <TextInput
           style={styles.ipEnter}
@@ -90,6 +121,7 @@ const index = (props) => {
           <Icon name="plus" size={20} color="#fff" />
         </TouchableOpacity>
       </View>
+      {/* </ScrollView> */}
     </View>
   );
 };
@@ -97,6 +129,9 @@ const index = (props) => {
 export default index;
 
 const styles = StyleSheet.create({
+  contain: {
+    flex: 1,
+  },
   layoutTop: {
     backgroundColor: '#fff',
     height: 65,
@@ -117,9 +152,11 @@ const styles = StyleSheet.create({
   },
   layoutContent: {
     padding: 30,
+    paddingTop: 15,
     zIndex: 0,
-    marginBottom: 160,
-    paddingBottom: 200,
+    borderTopColor: '#e7eaeb',
+    borderTopWidth: 1,
+    // height: width - 300,
   },
   layoutDay: {
     alignItems: 'center',
@@ -209,19 +246,16 @@ const styles = StyleSheet.create({
     height: 200,
   },
   layoutInput: {
-    position: 'absolute',
-    marginTop: 700,
     margin: 30,
+    marginTop: 0,
+    marginBottom: 0,
     alignItems: 'center',
     zIndex: 10,
   },
   ipEnter: {
-    width: 300,
-    height: 50,
-    paddingLeft: 50,
+    paddingLeft: 0,
     backgroundColor: '#fff',
     borderRadius: 30,
-    marginLeft: 20,
   },
   iconMic: {
     top: -35,

@@ -85,9 +85,9 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   txtDetailsl: {
-    color: '#e7eaeb',
+    color: '#2F4F4F',
   },
   txtTime: {
-    color: '#e7eaeb',
+    color: '#B22222',
   },
 });

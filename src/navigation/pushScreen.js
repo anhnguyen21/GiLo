@@ -66,19 +66,23 @@ export const homeScreen = () => {
   Promise.all([
     Icons.getImageSource('search', 14, '#8F8F8F'),
     Icons.getImageSource('shopping-bag', 14, '#8F8F8F'),
-    Icons.getImageSource('home', 14, '#009900'),
+    Icons.getImageSource('home', 14, '#8F8F8F'),
     Icons.getImageSource('bell', 14, '#8F8F8F'),
     Icons.getImageSource('user', 14, '#8F8F8F'),
-    Icons.getImageSource('book', 14),
+    Icons.getImageSource('plus', 14, '#8F8F8F'),
     Icons.getImageSource('bars', 14),
     Icons.getImageSource('search', 14),
-  ]).then(([searchIcon, orderHistory, add, notifications, user, library, menu, search]) => {
+  ]).then(([searchIcon, orderHistory, home, notifications, user, file, menu, search]) => {
     Navigation.setRoot({
       root: {
         bottomTabs: {
+          activeTintColor: '#cd077d',
           options: {
             bottomTabs: {
-              currentTabIndex: 2,
+              currentTabIndex: 0,
+              activeTintColor: 'red',
+              hideShadow: true,
+              backgroundColor: '#F5F6F7',
             },
           },
           children: [
@@ -87,17 +91,18 @@ export const homeScreen = () => {
                 children: [
                   {
                     component: {
-                      name: 'Search',
+                      name: 'Home',
                       options: {
                         topBar: {
                           visible: false,
                         },
                         bottomTab: {
                           text: 'Tìm kiếm',
-                          icon: searchIcon,
+                          icon: home,
                           fontSize: 18,
                           animate: false,
                           color: '#8F8F8F',
+                          selectedIconColor: '#f070a9',
                         },
                       },
                     },
@@ -121,6 +126,7 @@ export const homeScreen = () => {
                           fontSize: 18,
                           animate: false,
                           color: '#8F8F8F',
+                          selectedIconColor: '#f070a9',
                         },
                       },
                     },
@@ -134,14 +140,14 @@ export const homeScreen = () => {
                   {
                     component: {
                       id: 'HOME_SCREEN',
-                      name: 'Home',
+                      name: 'age',
                       options: {
                         topBar: {
                           visible: false,
                         },
                         bottomTab: {
-                          text: 'Home',
-                          icon: add,
+                          text: 'Quà tặng',
+                          icon: file,
                           fontSize: 18,
                           animate: false,
                           color: '#8F8F8F',
@@ -150,6 +156,7 @@ export const homeScreen = () => {
                             borderTopWidth: 1,
                             borderTopColor: '#555',
                           },
+                          selectedIconColor: '#f070a9',
                         },
                       },
                     },
@@ -171,6 +178,8 @@ export const homeScreen = () => {
                           text: 'Thông báo',
                           icon: notifications,
                           color: '#8F8F8F',
+                          badge: '2',
+                          selectedIconColor: '#f070a9',
                         },
                       },
                     },
@@ -192,6 +201,7 @@ export const homeScreen = () => {
                           text: 'Tôi',
                           icon: user,
                           color: '#8F8F8F',
+                          selectedIconColor: '#f070a9',
                         },
                       },
                     },

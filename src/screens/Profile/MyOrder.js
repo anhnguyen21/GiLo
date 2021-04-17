@@ -74,6 +74,25 @@ const MyOrder = (props) => {
           </View>
         </View>
       </TouchableOpacity>
+      {/* {(() => {
+        if (dataProgress !== null) {
+          dataProgress.map((item, index) => {
+            return (
+              <ItemMyOrder
+                key={index}
+                order={item.id_order}
+                date={item.time}
+                price={item.price}
+                data={item}
+                onOrderDetails={onOrderDetails}
+              />
+            );
+          });
+        } else {
+          return <View />;
+        }
+      })()} */}
+
       {dataProgress.map((item, index) => {
         return (
           <ItemMyOrder

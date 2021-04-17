@@ -5,28 +5,16 @@ import gift from '../../assests/img/hoacuc.png';
 
 const EmptyCart = () => {
   return (
-    <View style={styles.container}>
-      <View style={styles.layoutTop}>
-        <View style={styles.container}>
-          <View style={styles.backLogin}>
-            <TouchableOpacity>
-              <Icon name="chevron-left" size={18} />
-            </TouchableOpacity>
-            <Text style={styles.txtBack}>Giỏ hàng trống</Text>
-          </View>
+    <View style={styles.layoutContent}>
+      <View style={styles.layoutCenter}>
+        <View style={styles.bgImg}>
+          <Image style={styles.imgCart} source={gift} />
         </View>
-      </View>
-      <View style={styles.layoutContent}>
-        <View style={styles.layoutCenter}>
-          <View style={styles.bgImg}>
-            <Image style={styles.imgCart} source={gift} />
-          </View>
-          <Text style={styles.txtTitle}>Giỏ hàng của bạn rỗng</Text>
-          <Text style={styles.txtDetais}>Giỏ hàng rỗng</Text>
-          <TouchableOpacity style={styles.btnAddCart}>
-            <Text style={styles.txtBtn}>Mua hàng</Text>
-          </TouchableOpacity>
-        </View>
+        <Text style={styles.txtTitle}>Giỏ hàng của bạn rỗng</Text>
+        <Text style={styles.txtDetais}>Giỏ hàng rỗng</Text>
+        <TouchableOpacity style={styles.btnAddCart}>
+          <Text style={styles.txtBtn}>Mua hàng</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );

@@ -10,6 +10,11 @@ export async function userRegisterApi(data) {
   return http.post('api/account', data);
 }
 
+export async function profileApi(data) {
+  console.log(data);
+  return http.get('api/account/' + data);
+}
+
 export async function ProductypesApis() {
   return http.get('api/products');
 }
@@ -50,8 +55,8 @@ export async function getPromotionApi() {
   return http.get('api/promotion');
 }
 
-export async function getSearchApi() {
-  return http.get('api/search');
+export async function getSearchApi(data) {
+  return http.get('api/search/' + data);
 }
 
 export async function deleteToCartApi(data) {

@@ -1,7 +1,7 @@
 import { makeActionCreator, makeConstantCreator } from '../../Utils/Utils';
 export const SearchTypes = makeConstantCreator('GET_SEARCH', 'SEARCH_SUCCESS', 'SEARCH_FAIL');
 
-const getSearch = () => makeActionCreator(SearchTypes.GET_SEARCH);
+const getSearch = (data) => makeActionCreator(SearchTypes.GET_SEARCH, { data });
 
 const SearchSuccess = (response) => makeActionCreator(SearchTypes.SEARCH_SUCCESS, { response });
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -19,7 +19,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import LoginActions from '../../redux/AuthRedux/action';
 const { width: width } = Dimensions.get('window');
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
+import axios from 'axios';
 import storage from '@react-native-firebase/storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const index = (props) => {
   const [modal, setModal] = useState(false);
@@ -27,6 +29,9 @@ const index = (props) => {
   const [uploading, setUploading] = useState(false);
   const [transferred, setTransferred] = useState(0);
   const dispatch = useDispatch();
+  const dataProfile = useSelector((state) => state.user.dataProfile);
+
+  console.log(dataProfile);
 
   const onLogOut = () => {
     console.log('1234');
@@ -72,9 +77,19 @@ const index = (props) => {
         const source = { uri: response.uri };
         console.log(source);
         setImage(source);
-        // uploadImage();
       }
     });
+  };
+
+  useEffect(() => {
+    uploadImage();
+    getImage();
+  }, [image]);
+
+  const getImage = async () => {
+    const url = await storage().ref(dataProfile.img).getDownloadURL();
+    console.log(url);
+    return url;
   };
 
   const selectLibrary = async () => {
@@ -95,9 +110,9 @@ const index = (props) => {
         console.log('User tapped custom button: ', response.customButton);
       } else {
         const source = { uri: response.uri };
+        uploadImage();
         console.log(source);
         setImage(source);
-        // uploadImage();
       }
     });
   };
@@ -108,20 +123,31 @@ const index = (props) => {
     console.log(uri);
     const filename = uri.substring(uri.lastIndexOf('/') + 1);
     const uploadUri = Platform.OS === 'android' ? uri.replace('file://', '') : uri;
+    const imgUpload =
+      Platform.OS === 'android' ? uri.replace('file:///data/user/0/com.gilo/cache/', '') : uri;
     console.log(uploadUri);
+    await axios
+      .put('https://damp-woodland-88343.herokuapp.com/api/profile/9', {
+        img: imgUpload,
+      })
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
     setUploading(true);
     setTransferred(0);
     const task = storage().ref(filename).putFile(uploadUri);
+    console.log(task);
     try {
       await task;
       setUploading(false);
-      alert('success');
     } catch (e) {
       console.error(e);
     }
     // setUploading(false);
-    Alert.alert('Photo uploaded!', 'Your photo has been uploaded to Firebase Cloud Storage!');
-    setImage(null);
+    Alert.alert('Thay đổi hình ảnh thành công!');
   };
 
   const closeModal = () => {
@@ -130,16 +156,6 @@ const index = (props) => {
 
   return (
     <View>
-      {modal && (
-        <AlertMessage
-          isTwoBtn={true}
-          title="Ban có thể lấy ảnh từ"
-          textFirstBtn="Camera"
-          textSecondBtn="Thư viện"
-          camera={selectLaunchCamera}
-          library={selectLibrary}
-        />
-      )}
       <Image style={styles.imgProfile} source={imgProfile} />
       <View style={styles.container}>
         <View style={styles.backLogin}>
@@ -150,14 +166,26 @@ const index = (props) => {
           <TouchableOpacity style={styles.layoutEdit} onPress={closeModal}>
             <Icon name="edit" size={20} />
           </TouchableOpacity>
-          <TouchableOpacity onPress={uploadImage}>
+          {/* <TouchableOpacity onPress={uploadImage}>
             <Icon name="plus" size={20} />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
           <View style={styles.layoutName}>
-            <Text style={styles.txtName}>Nguyen The Anh</Text>
-            <Text style={styles.txtId}>ID: 10101999</Text>
+            <Text style={styles.txtName}>
+              {dataProfile.lastName} {dataProfile.firstName}
+            </Text>
+            <Text style={styles.txtId}>ID: #1010{dataProfile.id}</Text>
           </View>
         </View>
+        {modal && (
+          <AlertMessage
+            isTwoBtn={true}
+            title="Ban có thể lấy ảnh từ"
+            textFirstBtn="Camera"
+            textSecondBtn="Thư viện"
+            camera={selectLaunchCamera}
+            library={selectLibrary}
+          />
+        )}
         <View style={styles.layoutItem}>
           <TouchableOpacity style={styles.item} onPress={() => onAllOrder()}>
             <Icon style={styles.iconItem} name="gift" />
@@ -209,13 +237,13 @@ const index = (props) => {
           </View>
           <Icon name="chevron-left" size={14} />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.itemChooses} onPress={() => onLogOut()}>
+        {/* <TouchableOpacity style={styles.itemChooses} onPress={() => onLogOut()}>
           <View style={styles.itemLeft}>
             <Icon style={styles.iconItemChooses} name="power-off" />
             <Text style={styles.txtItemChooses}>Đăng xuất</Text>
           </View>
           <Icon name="chevron-left" size={14} />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
     </View>
   );

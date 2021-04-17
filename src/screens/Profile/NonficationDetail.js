@@ -3,9 +3,15 @@ import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import ItemNonfication from '../../components/ItemNonfication';
 import { useDispatch, useSelector } from 'react-redux';
+const _ = require('lodash');
 
 const Nonfication = () => {
   const dataNotification = useSelector((state) => state.nofication.responseNofication);
+  var data = [];
+  if (dataNotification) {
+    data = dataNotification;
+  }
+  console.log('hiển thị data ' + !_.isEmpty(data));
   return (
     <View>
       <View style={styles.layoutTop}>
@@ -16,11 +22,35 @@ const Nonfication = () => {
         </View>
       </View>
       <View style={styles.layoutContent}>
-        {dataNotification.map((item, index) => {
+        {!_.isEmpty(data) ? (
+          dataNotification.map((item, index) => {
+            return (
+              <ItemNonfication
+                key={index}
+                content={item.content}
+                type={item.type}
+                time={item.time}
+              />
+            );
+          })
+        ) : (
+          <View />
+        )}
+        {/* dataNotification.map((item, index) => {
+            return (
+              <ItemNonfication
+                key={index}
+                content={item.content}
+                type={item.type}
+                time={item.time}
+              />
+            );
+          }) */}
+        {/* {dataNotification.map((item, index) => {
           return (
             <ItemNonfication key={index} content={item.content} type={item.type} time={item.time} />
           );
-        })}
+        })} */}
       </View>
     </View>
   );

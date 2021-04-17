@@ -46,12 +46,10 @@ const signup = (props) => {
   const [gender, setGender] = useState('0');
   const [phone, setPhone] = useState('');
   const [brithday, setBrithday] = useState('');
-  // const dispatch = useDispatch();
   const dataErrors = null;
   const [confirm, setConfirm] = useState(null);
 
   const [code, setCode] = useState('');
-  // useSelector((state) => state.user.errorSignUp);
   const appVerifier = window.recaptchaVerifier;
   const onSignUp = () => {
     const dataSignUp = {
@@ -63,6 +61,7 @@ const signup = (props) => {
       address: address,
       phone: phone,
       gender: gender,
+      img: '1',
       brithday: brithday,
     };
     firebase
@@ -70,8 +69,17 @@ const signup = (props) => {
       .signInWithPhoneNumber('+84329488708', appVerifier)
       .then((confirmResult) => {
         setConfirm(confirmResult);
-        // props.navigation.navigate('OTP', { confirm: confirm });
-        pushScreen(props.componentId, 'digitCode', { confirm: confirmResult }, '', false, 'chevron-left', false);
+        console.log(confirm);
+        console.log(confirmResult);
+        pushScreen(
+          props.componentId,
+          'digitCode',
+          { confirm: confirmResult, dataSignUp: dataSignUp },
+          '',
+          false,
+          'chevron-left',
+          false,
+        );
         console.log(confirmResult);
       })
       .catch((error) => {
@@ -92,7 +100,6 @@ const signup = (props) => {
       })
       .catch((error) => {
         alert(error.message);
-
         console.log(error);
       });
   };
@@ -214,6 +221,7 @@ const signup = (props) => {
               <Picker.Item label="Nu" value="1" />
             </Picker>
           </View>
+         
           <View style={styles.layoutConfirm}>
             <Text style={styles.txtConfirm}>Xác nhận đăng nhập</Text>
             <TouchableOpacity style={styles.btnSignup} onPress={() => onSignUp()}>

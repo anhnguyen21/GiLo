@@ -3,13 +3,26 @@ import { StyleSheet, Text, View, TouchableOpacity, TextInput, ScrollView } from 
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { Navigation } from 'react-native-navigation';
 import { pushScreen } from '../../navigation/pushScreen';
+import { useSelector, useDispatch } from 'react-redux';
+import axios from 'axios';
 
 const CheckOut = (props) => {
   const backProfile = () => {
     Navigation.pop(props.componentId);
   };
+  const idUser = useSelector((state) => state.user.token);
   const onAddAdress = () => {
     pushScreen(props.componentId, 'Map', ' ', ' ', false, 'chevron-left', false);
+  };
+  const onPayment = () => {
+    axios
+      .put(`https://damp-woodland-88343.herokuapp.com/api/order/${idUser}`)
+      .then(function (response) {
+        Navigation.pop(props.componentId);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   };
   return (
     <ScrollView>
@@ -93,7 +106,7 @@ const CheckOut = (props) => {
           <Text style={styles.txtConfirm}>Xác nhận thông tin của bạn</Text>
           <Icon name="check-circle" size={18} color="#40aa54" />
         </View>
-        <TouchableOpacity style={styles.btnPayNow}>
+        <TouchableOpacity style={styles.btnPayNow} onPress={() => onPayment()}>
           <Text style={styles.txtPayNow}>Pay Now</Text>
         </TouchableOpacity>
       </View>

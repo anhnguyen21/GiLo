@@ -2,10 +2,10 @@ import { call, takeLatest, put } from 'redux-saga/effects';
 import SearchActions, { SearchTypes } from './action';
 import { getSearchApi } from '../../api/auth';
 
-export function* getSearch() {
+export function* getSearch({ data }) {
   try {
     console.log('search');
-    const response = yield call(getSearchApi);
+    const response = yield call(getSearchApi, data);
     const newResponse = {
       data: response.data,
     };

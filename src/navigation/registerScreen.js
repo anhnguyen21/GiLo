@@ -26,6 +26,11 @@ import OrderDetail from '../screens/Profile/OrderDetail';
 import Address from '../screens/Map/address';
 import Search from '../screens/Search/index';
 import digitCode from '../screens/Authur/digitCode';
+import age from '../screens/Reference/age';
+import Ifresender from '../screens/Reference/chooseCategory';
+import interested from '../screens/Reference/interested';
+import Color from '../screens/Reference/color';
+import Result from '../screens/Reference/referenceProduct';
 
 function ReduxProvider(Component) {
   return (props) => (
@@ -160,5 +165,30 @@ export function registerScreens() {
     'digitCode',
     () => ReduxProvider(digitCode),
     () => digitCode,
+  );
+  Navigation.registerComponent(
+    'age',
+    () => ReduxProvider(age),
+    () => age,
+  );
+  Navigation.registerComponent(
+    'Ifresender',
+    () => ReduxProvider(Ifresender),
+    () => Ifresender,
+  );
+  Navigation.registerComponent(
+    'interested',
+    () => ReduxProvider(interested),
+    () => interested,
+  );
+  Navigation.registerComponent(
+    'Color',
+    () => ReduxProvider(Color),
+    () => Color,
+  );
+  Navigation.registerComponent(
+    'Result',
+    () => ReduxProvider(Result),
+    () => Result,
   );
 }

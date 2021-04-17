@@ -9,7 +9,9 @@ import {
   Dimensions,
 } from 'react-native';
 import MailBox from '../../assests/icon/mailbox.png';
+import { useDispatch, useSelector } from 'react-redux';
 import { Navigation } from 'react-native-navigation';
+import SignUpActions from '../../redux/AuthRedux/action';
 const { width, height } = Dimensions.get('window');
 
 const digitCode = (props) => {
@@ -19,19 +21,21 @@ const digitCode = (props) => {
   const [fourNumber, setFourNumber] = useState('');
   const [fiveNumber, setFiveNumber] = useState('');
   const [sixNumber, setSixNumber] = useState('');
-  const confirm = props.confirm;
-  console.log(props.confirm);
+  const confirm = '123456';
+  const dispatch = useDispatch();
+  console.log(props);
   console.log(confirm);
-  console.log('confirm' + props.confirmResult.confirm);
+  // console.log('confirm' + props);
+
   const OtpVerify = async () => {
     try {
-      console.log('confirm' + confirm);
       console.log(firtNumber + secondNumber + thirdNumber + fourNumber + fiveNumber + sixNumber);
-      let data = await confirm.confirm(
+      let data = await props.data.confirm.confirm(
         firtNumber + secondNumber + thirdNumber + fourNumber + fiveNumber + sixNumber,
       );
+      await dispatch(SignUpActions.userSignUp(props.data.dataSignUp));
       Navigation.pop(props.componentId);
-      console.log('data', data);
+      console.log('data', props.data.dataSignUp);
     } catch (error) {
       console.log('Invalid code.');
     }

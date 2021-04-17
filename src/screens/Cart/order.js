@@ -44,7 +44,26 @@ const order = (props) => {
         </View>
       </View>
       <View>
-        {dataProgress.map((item, index) => {
+        {(() => {
+          if (dataProgress !== null) {
+            dataProgress.map((item, index) => {
+              return (
+                <ItemProgress
+                  key={index}
+                  state={item.state}
+                  content={item.content}
+                  time={item.time}
+                  order={item.id_order}
+                  data={item}
+                  onDetailsOrder={onDetailsOrder}
+                />
+              );
+            });
+          } else {
+            return <View />;
+          }
+        })()}
+        {/* {dataProgress.map((item, index) => {
           return (
             <ItemProgress
               key={index}
@@ -56,7 +75,7 @@ const order = (props) => {
               onDetailsOrder={onDetailsOrder}
             />
           );
-        })}
+        })} */}
       </View>
     </ScrollView>
   );

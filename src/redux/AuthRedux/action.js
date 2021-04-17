@@ -11,6 +11,12 @@ export const SignUpTypes = makeConstantCreator(
   'USER_SIGNUP_FAILURE',
 );
 
+export const ProfileTypes = makeConstantCreator(
+  'USER_PROFILE',
+  'USER_PROFILE_SUCCESS',
+  'USER_PROFILE_FAILURE',
+);
+
 const userLogin = (data) => makeActionCreator(LoginTypes.USER_LOGIN, { data });
 
 const userLoginSuccess = (response) =>
@@ -26,6 +32,15 @@ const userSignUpSuccess = (response) =>
 
 const userSignUpFailure = (error) => makeActionCreator(SignUpTypes.USER_SIGNUP_FAILURE, { error });
 
+const userProfile = (data, onSuccess) =>
+  makeActionCreator(ProfileTypes.USER_PROFILE, { data, onSuccess });
+
+const userProfileSuccess = (response) =>
+  makeActionCreator(ProfileTypes.USER_PROFILE_SUCCESS, { response });
+
+const userProfileFailure = (error) =>
+  makeActionCreator(ProfileTypes.USER_PROFILE_FAILURE, { error });
+
 const userLogout = () => makeActionCreator(LoginTypes.USER_LOGOUT);
 export default {
   userLogin,
@@ -35,4 +50,7 @@ export default {
   userSignUp,
   userSignUpSuccess,
   userSignUpFailure,
+  userProfile,
+  userProfileSuccess,
+  userProfileFailure,
 };

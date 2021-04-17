@@ -42,21 +42,25 @@ const login = (props) => {
       address: userInfo.user.id,
       phone: '0123456789',
       gender: '1',
-      brithday: '10/10',
+      brithday: '2021-10-10',
       img: userInfo.user.photo,
     };
     console.log(dataSignUp);
-    await dispatch(SignUpActions.userSignUp(dataSignUp, onSuccess()));
+    // await dispatch(SignUpActions.userSignUp(dataSignUp, onSuccess()));
     const dataLogin = {
       account: userInfo.user.name,
       password: '123',
     };
-    dispatch(LoginActions.userLogin(dataLogin));
+    setAccount(dataLogin);
+    console.log("===========run set state ===================");
+    console.log('account' + account);
+    dispatch(LoginActions.userLogin(dataLogin, onSuccess));
     console.log(userInfo);
   };
 
   const onSuccess = () => {
     console.log('login with google');
+    console.log('account' + account);
     // console.log(state);
     // const dataLogin = {
     //   account: state,
@@ -75,7 +79,9 @@ const login = (props) => {
   const onLoginToHome = () => {
     console.log('login google');
     const dataLogin = {
-      account: 'anh1999',
+      // account: 'onho1999',
+      // password: '123',
+      account: 'anhnguyen',
       password: '123',
     };
     dispatch(LoginActions.userLogin(dataLogin));
@@ -113,6 +119,8 @@ const login = (props) => {
           if (dataErrors !== null) {
             if (dataErrors.data.password !== null) {
               return <Text style={styles.txtErrors}>{dataErrors.data.password}</Text>;
+            } else {
+              return <View />;
             }
           }
         })()}

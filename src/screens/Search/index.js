@@ -2,9 +2,14 @@ import React from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { useSelector } from 'react-redux';
+const _ = require('lodash');
 
 const index = () => {
   const searchData = useSelector((state) => state.search.responseSearch);
+  var data = [];
+  if (searchData) {
+    data = searchData;
+  }
   return (
     <View>
       <View style={styles.layoutTop}>
@@ -31,13 +36,37 @@ const index = () => {
             </TouchableOpacity>
           </View>
           <View style={styles.layoutResult}>
-            {searchData.map((item, index) => {
+            {!_.isEmpty(data) ? (
+              searchData.map((item, index) => {
+                return (
+                  <Text key={index} style={styles.txtResult}>
+                    {item.content}
+                  </Text>
+                );
+              })
+            ) : (
+              <View />
+            )}
+            {/* {(() => {
+              if (data != '') {
+                data.map((item, index) => {
+                  return (
+                    <Text key={index} style={styles.txtResult}>
+                      {item.content}
+                    </Text>
+                  );
+                });
+              } else {
+                return <Text />;
+              }
+            })()} */}
+            {/* {searchData.map((item, index) => {
               return (
                 <Text key={index} style={styles.txtResult}>
                   {item.content}
                 </Text>
               );
-            })}
+            })} */}
             {/* <Text style={styles.txtResult}>Hoa hồng</Text>
             <Text style={styles.txtResult}>Hoa cúc</Text>
             <Text style={styles.txtResult}>Bánh sinh nhật</Text>
