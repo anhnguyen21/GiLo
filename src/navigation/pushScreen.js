@@ -140,7 +140,7 @@ export const homeScreen = () => {
                   {
                     component: {
                       id: 'HOME_SCREEN',
-                      name: 'age',
+                      name: 'introReference',
                       options: {
                         topBar: {
                           visible: false,

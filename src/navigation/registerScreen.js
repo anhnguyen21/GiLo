@@ -31,6 +31,8 @@ import Ifresender from '../screens/Reference/chooseCategory';
 import interested from '../screens/Reference/interested';
 import Color from '../screens/Reference/color';
 import Result from '../screens/Reference/referenceProduct';
+import introReference from '../screens/Reference/introReference';
+import gender from '../screens/Reference/gender';
 
 function ReduxProvider(Component) {
   return (props) => (
@@ -190,5 +192,15 @@ export function registerScreens() {
     'Result',
     () => ReduxProvider(Result),
     () => Result,
+  );
+  Navigation.registerComponent(
+    'introReference',
+    () => ReduxProvider(introReference),
+    () => introReference,
+  );
+  Navigation.registerComponent(
+    'gender',
+    () => ReduxProvider(gender),
+    () => gender,
   );
 }

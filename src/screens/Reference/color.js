@@ -5,11 +5,15 @@ import { pushScreen } from '../../navigation/pushScreen';
 import { Navigation } from 'react-native-navigation';
 
 const Color = (props) => {
+  console.log(props.data);
   const backProfile = () => {
     Navigation.pop(props.componentId);
   };
-  const onToColor = () => {
-    pushScreen(props.componentId, 'Result', '', '', false, 'chevron-left', false);
+  const onToColor = (data) => {
+    var dataRecomment = props.data;
+    Object.assign(dataRecomment, data);
+    console.log(dataRecomment);
+    pushScreen(props.componentId, 'interested', dataRecomment, '', false, 'chevron-left', false);
   };
   return (
     <View>
@@ -19,27 +23,46 @@ const Color = (props) => {
             <TouchableOpacity>
               <Icon name="chevron-left" size={18} />
             </TouchableOpacity>
-            <Text style={styles.txtBack}>Sở thích</Text>
+            <Text style={styles.txtBack}>Màu yêu thích</Text>
           </TouchableOpacity>
         </View>
       </View>
       <View style={styles.layoutContent}>
-        <View style={[styles.layoutItem, { borderTopColor: '#e7eaeb', borderTopWidth: 1 }]}>
+        <TouchableOpacity
+          style={[styles.layoutItem, { borderTopColor: '#e7eaeb', borderTopWidth: 1 }]}
+          onPress={() => onToColor({ blue: '1', red: '0', yellow: '0', green: '0', while: '0' })}
+        >
           <Icon name="chevron-left" size={18} />
-          <Text style={styles.txtCategory}>Xanh</Text>
-        </View>
-        <TouchableOpacity style={styles.layoutItem} onPress={() => onToColor()}>
+          <Text style={styles.txtCategory}>Xanh lá cây</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.layoutItem}
+          onPress={() => onToColor({ blue: '0', red: '1', yellow: '0', green: '0', while: '0' })}
+        >
           <Icon name="chevron-left" size={18} />
           <Text style={styles.txtCategory}>Đỏ</Text>
         </TouchableOpacity>
-        <View style={styles.layoutItem}>
+        <TouchableOpacity
+          style={styles.layoutItem}
+          onPress={() => onToColor({ blue: '0', red: '0', yellow: '1', green: '0', while: '0' })}
+        >
           <Icon name="chevron-left" size={18} />
           <Text style={styles.txtCategory}>Vàng</Text>
-        </View>
-        <View style={styles.layoutItem}>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.layoutItem}
+          onPress={() => onToColor({ blue: '0', red: '0', yellow: '0', green: '1', while: '0' })}
+        >
           <Icon name="chevron-left" size={18} />
-          <Text style={styles.txtCategory}>Cam</Text>
-        </View>
+          <Text style={styles.txtCategory}>Xanh dương</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.layoutItem}
+          onPress={() => onToColor({ blue: '0', red: '0', yellow: '0', green: '0', while: '1' })}
+        >
+          <Icon name="chevron-left" size={18} />
+          <Text style={styles.txtCategory}>Trắng</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );

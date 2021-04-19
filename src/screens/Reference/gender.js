@@ -3,16 +3,13 @@ import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { pushScreen } from '../../navigation/pushScreen';
 import { Navigation } from 'react-native-navigation';
-const choose = (props) => {
-  console.log(props.data.male);
+
+const gender = (props) => {
   const backProfile = () => {
     Navigation.pop(props.componentId);
   };
-  const onToInterested = (data) => {
-    var dataRecomment = props.data;
-    Object.assign(dataRecomment, data);
-    console.log(dataRecomment);
-    pushScreen(props.componentId, 'Color', dataRecomment, '', false, 'chevron-left', false);
+  const onToAge = (data) => {
+    pushScreen(props.componentId, 'age', data, '', false, 'chevron-left', false);
   };
   return (
     <View>
@@ -29,46 +26,24 @@ const choose = (props) => {
       <View style={styles.layoutContent}>
         <TouchableOpacity
           style={[styles.layoutItem, { borderTopColor: '#e7eaeb', borderTopWidth: 1 }]}
-          onPress={() =>
-            onToInterested({ '18-22t': '1', '22-35t': '0', '35-55t': '0', '55-70t': '0' })
-          }
+          onPress={() => onToAge({ male: '1', female: '0' })}
         >
           <Icon name="chevron-left" size={18} />
-          <Text style={styles.txtCategory}>trên 16 tuổi</Text>
+          <Text style={styles.txtCategory}>Nam</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.layoutItem}
-          onPress={() =>
-            onToInterested({ '18-22t': '0', '22-35t': '1', '35-55t': '0', '55-70t': '0' })
-          }
+          onPress={() => onToAge({ male: '0', female: '1' })}
         >
           <Icon name="chevron-left" size={18} />
-          <Text style={styles.txtCategory}>22 - 35 tuổi</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.layoutItem}
-          onPress={() =>
-            onToInterested({ '18-22t': '0', '22-35t': '0', '35-55t': '1', '55-70t': '0' })
-          }
-        >
-          <Icon name="chevron-left" size={18} />
-          <Text style={styles.txtCategory}>36 - 55 tuổi</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.layoutItem}
-          onPress={() =>
-            onToInterested({ '18-22t': '0', '22-35t': '0', '35-55t': '0', '55-70t': '1' })
-          }
-        >
-          <Icon name="chevron-left" size={18} />
-          <Text style={styles.txtCategory}>55 - 70 tuổi</Text>
+          <Text style={styles.txtCategory}>Nữ</Text>
         </TouchableOpacity>
       </View>
     </View>
   );
 };
 
-export default choose;
+export default gender;
 
 const styles = StyleSheet.create({
   layoutTop: {

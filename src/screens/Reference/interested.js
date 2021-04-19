@@ -3,13 +3,28 @@ import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { pushScreen } from '../../navigation/pushScreen';
 import { Navigation } from 'react-native-navigation';
+import axios from 'axios';
 
 const interested = (props) => {
+  console.log(props.data);
   const backProfile = () => {
     Navigation.pop(props.componentId);
   };
-  const onToInterested = () => {
-    pushScreen(props.componentId, 'Color', '', '', false, 'chevron-left', false);
+  const onToInterested = async (data) => {
+    var dataRecomment = props.data;
+    Object.assign(dataRecomment, data);
+    console.log(dataRecomment);
+    await axios
+      .post('http://127.0.0.1:8000/api/recomment', {
+        arr_recomment: dataRecomment,
+      })
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    pushScreen(props.componentId, 'Result', dataRecomment, '', false, 'chevron-left', false);
   };
   return (
     <View>
@@ -24,22 +39,51 @@ const interested = (props) => {
         </View>
       </View>
       <View style={styles.layoutContent}>
-        <View style={[styles.layoutItem, { borderTopColor: '#e7eaeb', borderTopWidth: 1 }]}>
+        <TouchableOpacity
+          style={[styles.layoutItem, { borderTopColor: '#e7eaeb', borderTopWidth: 1 }]}
+          onPress={() =>
+            onToInterested({ football: '1', walk: '0', read_book: '0', watch_tv: '0', travel: '0' })
+          }
+        >
           <Icon name="chevron-left" size={18} />
-          <Text style={styles.txtCategory}>Đi phượt</Text>
-        </View>
-        <TouchableOpacity style={styles.layoutItem} onPress={() => onToInterested()}>
-          <Icon name="chevron-left" size={18} />
-          <Text style={styles.txtCategory}>Chạy bộ</Text>
+          <Text style={styles.txtCategory}>Đá bóng</Text>
         </TouchableOpacity>
-        <View style={styles.layoutItem}>
+        <TouchableOpacity
+          style={styles.layoutItem}
+          onPress={() =>
+            onToInterested({ football: '0', walk: '1', read_book: '0', watch_tv: '0', travel: '0' })
+          }
+        >
           <Icon name="chevron-left" size={18} />
-          <Text style={styles.txtCategory}>Xem phim</Text>
-        </View>
-        <View style={styles.layoutItem}>
+          <Text style={styles.txtCategory}>Đi bộ</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.layoutItem}
+          onPress={() =>
+            onToInterested({ football: '0', walk: '0', read_book: '1', watch_tv: '0', travel: '0' })
+          }
+        >
           <Icon name="chevron-left" size={18} />
-          <Text style={styles.txtCategory}>Đọc truyện</Text>
-        </View>
+          <Text style={styles.txtCategory}>Đọc sách</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.layoutItem}
+          onPress={() =>
+            onToInterested({ football: '0', walk: '0', read_book: '0', watch_tv: '1', travel: '0' })
+          }
+        >
+          <Icon name="chevron-left" size={18} />
+          <Text style={styles.txtCategory}>Xem TV</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.layoutItem}
+          onPress={() =>
+            onToInterested({ football: '0', walk: '0', read_book: '0', watch_tv: '0', travel: '1' })
+          }
+        >
+          <Icon name="chevron-left" size={18} />
+          <Text style={styles.txtCategory}>Đi du lịch</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
