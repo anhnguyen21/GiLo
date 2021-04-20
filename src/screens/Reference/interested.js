@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { pushScreen } from '../../navigation/pushScreen';
@@ -6,6 +6,9 @@ import { Navigation } from 'react-native-navigation';
 import axios from 'axios';
 
 const interested = (props) => {
+  var id_product;
+  var product;
+  const [product_id, setProduct_id] = useState('');
   console.log(props.data);
   const backProfile = () => {
     Navigation.pop(props.componentId);
@@ -15,9 +18,19 @@ const interested = (props) => {
     Object.assign(dataRecomment, data);
     console.log(dataRecomment);
     await axios
-      .post('http://127.0.0.1:8000/api/recomment', {
+      .post('https://damp-woodland-88343.herokuapp.com/api/recomment', {
         arr_recomment: dataRecomment,
       })
+      .then(function (response) {
+        console.log('value of product need' + response.data);
+        setProduct_id(response.data);
+        id_product = response.data;
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    await axios
+      .get(`https://damp-woodland-88343.herokuapp.com/api/product/${id_product}`)
       .then(function (response) {
         console.log(response);
       })

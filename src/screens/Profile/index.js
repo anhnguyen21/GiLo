@@ -171,7 +171,7 @@ const index = (props) => {
           </TouchableOpacity> */}
           <View style={styles.layoutName}>
             <Text style={styles.txtName}>
-              {dataProfile.lastName} {dataProfile.firstName}
+              {dataProfile.lastName ?? 'nguyen'} {dataProfile.firstName ?? 'anh'}
             </Text>
             <Text style={styles.txtId}>ID: #1010{dataProfile.id}</Text>
           </View>
