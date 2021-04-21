@@ -42,7 +42,7 @@ export default ItemCart;
 const styles = StyleSheet.create({
   layoutItemCart: {
     marginTop: 20,
-    marginLeft: 35,
+    // marginLeft: 35,
     width: 320,
     height: 120,
     backgroundColor: '#fff',

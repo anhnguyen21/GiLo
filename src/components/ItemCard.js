@@ -44,7 +44,6 @@ const ItemCard = (props) => {
           <Icon style={styles.iconPlus} name="plus" />
         </TouchableOpacity>
       </View>
-    
     </View>
   );
 };

@@ -30,9 +30,9 @@ import age from '../screens/Reference/age';
 import Ifresender from '../screens/Reference/chooseCategory';
 import interested from '../screens/Reference/interested';
 import Color from '../screens/Reference/color';
-import Result from '../screens/Reference/referenceProduct';
 import introReference from '../screens/Reference/introReference';
 import gender from '../screens/Reference/gender';
+import Result from '../screens/Reference/result';
 
 function ReduxProvider(Component) {
   return (props) => (

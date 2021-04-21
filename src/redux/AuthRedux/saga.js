@@ -21,14 +21,14 @@ export function* userLogin({ data }) {
       data: response.data,
     };
     // yield put(AsyncStorage.setItem('id', JSON.stringify(newResponse.data.idToken)));
+    yield put(ProgressActions.getProgresscation(newResponse.data.idToken));
     yield put(ProfileActions.userProfile(newResponse.data.idToken));
     yield put(SearchActions.getSearch());
     yield put(PromotionActions.getPromotion());
     yield put(NonficationActions.getNofication(newResponse.data.idToken));
-    yield put(ProgressActions.getProgresscation(newResponse.data.idToken));
-    yield put(LoginActions.userLoginSuccess(newResponse.data.idToken));
     saveData(newResponse.data.idToken);
     yield put(ProductActions.getProductTypes());
+    yield put(LoginActions.userLoginSuccess(newResponse.data.idToken));
   } catch (error) {
     console.log(error);
     yield put(LoginActions.userLoginFailure(error));
@@ -52,6 +52,7 @@ export function* userSignUpApi({ data, onSuccess }) {
     };
     yield put(SignUpActions.userSignUpSuccess(newResponse));
     onSuccess && onSuccess();
+    console.log(newResponse);
     console.log('SignUp success');
   } catch (error) {
     console.log(error);

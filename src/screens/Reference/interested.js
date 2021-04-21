@@ -32,12 +32,11 @@ const interested = (props) => {
     await axios
       .get(`https://damp-woodland-88343.herokuapp.com/api/product/${id_product}`)
       .then(function (response) {
-        console.log(response);
+        pushScreen(props.componentId, 'Result', response, '', false, 'chevron-left', false);
       })
       .catch(function (error) {
         console.log(error);
       });
-    pushScreen(props.componentId, 'Result', dataRecomment, '', false, 'chevron-left', false);
   };
   return (
     <View>

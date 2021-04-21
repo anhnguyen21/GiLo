@@ -46,7 +46,7 @@ const login = (props) => {
       img: userInfo.user.photo,
     };
     console.log(dataSignUp);
-    // await dispatch(SignUpActions.userSignUp(dataSignUp, onSuccess()));
+    await dispatch(SignUpActions.userSignUp(dataSignUp, onSuccess()));
     const dataLogin = {
       account: userInfo.user.name,
       password: '123',

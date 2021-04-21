@@ -24,11 +24,11 @@ export function* loadingAppSagas() {
     saveSkip();
     http.setAuthorizationHeader(token);
     if (token) {
+      yield put(ProgressActions.getProgresscation(token));
       yield put(ProfileActions.userProfile(token));
       yield put(SearchActions.getSearch(token));
       yield put(PromotionActions.getPromotion());
       yield put(NonficationActions.getNofication(token));
-      yield put(ProgressActions.getProgresscation(token));
       yield put(ProductActions.getProductTypes());
       yield put(LoginActions.userLoginSuccess(token));
     } else {

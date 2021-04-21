@@ -25,6 +25,7 @@ const index = (props) => {
   const [ContentTest, setContentTest] = useState('');
   const [Chat, setChatRealtime] = useState(useSelector((state) => state.chat.responseProductChat));
   const chatUser = useSelector((state) => state.chat.responseProductChat);
+  console.log(chatUser);
   const dispatch = useDispatch();
 
   var data = [];
@@ -51,9 +52,9 @@ const index = (props) => {
     dispatch(ChatAction.getChat(dataChat, onSuccessChat));
   };
   const onSuccessChat = () => {};
-  useEffect(() => {
-    setChatRealtime(chatUser);
-  }, [chatUser, dispatch]);
+  // useEffect(() => {
+  //   setChatRealtime(chatUser);
+  // }, [chatUser, dispatch]);
   const backProfile = () => {
     Navigation.pop(props.componentId);
   };
@@ -78,7 +79,7 @@ const index = (props) => {
           <Text style={styles.txtTime}>Hôm nay, 10:20 AM</Text>
         </View>
         {!_.isEmpty(data) ? (
-          Chat.map((item, index) => {
+          chatUser.map((item, index) => {
             return (
               <View key={index}>
                 {(() => {

@@ -82,56 +82,58 @@ const index = (props) => {
         <Icon style={styles.iconBack} name="chevron-left" size={18} />
         <Text style={styles.txtTitle}>Giỏ hàng</Text>
       </TouchableOpacity>
-      {!_.isEmpty(data) ? (
-        dataCart.map((item, index) => {
-          return (
-            <ItemCart
-              key={index}
-              name={item.name}
-              price={item.price}
-              quantity={item.quantitycart}
-              img={item.img}
-              data={item}
-              onAddProduct={onAddProduct}
-              onDeleteProduct={onDeleteProduct}
-            />
-          );
-        })
-      ) : (
-        <EmptyCart />
-      )}
-      <View style={styles.layoutTotal}>
-        <View style={styles.layoutDiscount}>
-          <TextInput
-            style={styles.ipDiscount}
-            onChangeText={(text) => setTxtPromote(text)}
-            placeholder="Nhập mã giảm giá"
-          />
-          <TouchableOpacity style={styles.btnDiscount} onPress={() => onCheckData()}>
-            <Text style={styles.txtDiscount}>Áp dụng</Text>
-          </TouchableOpacity>
-        </View>
-        {promote && <Text style={styles.txtPromote}>Mã giảm giá không hợp lệ</Text>}
-        <View style={styles.rowTotal}>
-          <Text style={styles.txtPriceBasic}>Giá giảm phẩm:</Text>
-          <Text style={styles.txtPriceTotal}>{totalPrice} Đ</Text>
-        </View>
-        {promote ? (
-          <View style={styles.rowTotal}>
-            <Text style={styles.txtPriceBasic}>Mã giảm giá</Text>
-            <Text style={styles.txtPriceTotal}>{totalPromote} Đ</Text>
-          </View>
+      <View style={styles.layoutContent}>
+        {!_.isEmpty(data) ? (
+          dataCart.map((item, index) => {
+            return (
+              <ItemCart
+                key={index}
+                name={item.name}
+                price={item.price}
+                quantity={item.quantitycart}
+                img={item.img}
+                data={item}
+                onAddProduct={onAddProduct}
+                onDeleteProduct={onDeleteProduct}
+              />
+            );
+          })
         ) : (
-          <View />
+          <EmptyCart />
         )}
-        <View style={styles.rowTotal}>
-          <Text style={styles.txtPriceBasic}>Tổng tiền:</Text>
-          <Text style={styles.txtPriceTotal}>{totalPrice - totalPromote} Đ</Text>
+        <View style={styles.layoutTotal}>
+          <View style={styles.layoutDiscount}>
+            <TextInput
+              style={styles.ipDiscount}
+              onChangeText={(text) => setTxtPromote(text)}
+              placeholder="Nhập mã giảm giá"
+            />
+            <TouchableOpacity style={styles.btnDiscount} onPress={() => onCheckData()}>
+              <Text style={styles.txtDiscount}>Áp dụng</Text>
+            </TouchableOpacity>
+          </View>
+          {promote && <Text style={styles.txtPromote}>Mã giảm giá không hợp lệ</Text>}
+          <View style={styles.rowTotal}>
+            <Text style={styles.txtPriceBasic}>Giá giảm phẩm:</Text>
+            <Text style={styles.txtPriceTotal}>{totalPrice} Đ</Text>
+          </View>
+          {promote ? (
+            <View style={styles.rowTotal}>
+              <Text style={styles.txtPriceBasic}>Mã giảm giá</Text>
+              <Text style={styles.txtPriceTotal}>{totalPromote} Đ</Text>
+            </View>
+          ) : (
+            <View />
+          )}
+          <View style={styles.rowTotal}>
+            <Text style={styles.txtPriceBasic}>Tổng tiền:</Text>
+            <Text style={styles.txtPriceTotal}>{totalPrice - totalPromote} Đ</Text>
+          </View>
         </View>
+        <TouchableOpacity style={styles.btnBuy} onPress={() => onCheckOrder()}>
+          <Text style={styles.txtBuy}>Mua hàng</Text>
+        </TouchableOpacity>
       </View>
-      <TouchableOpacity style={styles.btnBuy} onPress={() => onCheckOrder()}>
-        <Text style={styles.txtBuy}>Mua hàng</Text>
-      </TouchableOpacity>
     </ScrollView>
   );
 };
@@ -141,6 +143,9 @@ export default index;
 const styles = StyleSheet.create({
   conatiner: {
     // margin: 20,
+  },
+  layoutContent: {
+    alignItems: 'center',
   },
   layoutTopBack: {
     marginTop: 20,
@@ -205,7 +210,7 @@ const styles = StyleSheet.create({
     width: 90,
   },
   btnBuy: {
-    marginLeft: 50,
+    // marginLeft: 50,
     marginBottom: 20,
     width: 300,
     height: 50,

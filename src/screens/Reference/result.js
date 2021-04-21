@@ -22,8 +22,8 @@ import ChatAction from '../../redux/ChatRedux/action';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const index = (props) => {
-  console.log(props.data);
-  const prduct = useSelector((state) => state.detail.responseProductDetail);
+  console.log(props.data.data);
+  const prduct = props.data.data;
   const dispatch = useDispatch();
   const backHome = () => {
     Navigation.pop(props.componentId);
@@ -37,7 +37,7 @@ const index = (props) => {
   const AddToCart = (id) => {
     console.log(props.data);
     const dataLogin = {
-      id_user: props.data,
+      id_user: 2,
       id_pro: id,
     };
     dispatch(CartAction.getAddCart(dataLogin));
@@ -50,13 +50,6 @@ const index = (props) => {
     dispatch(ChatAction.getChat(dataChat, onSuccessChat));
     pushScreen(props.componentId, 'Chat', '', '', false, 'chevron-left', false);
   };
-  const getIdUser = async () => {
-    try {
-      return await AsyncStorage.getItem('id_token');
-    } catch (e) {
-      console.log('Can not take data token');
-    }
-  };
   const onSuccessChat = () => {
     // pushScreen(props.componentId, 'Chat', '', '', false, 'chevron-left', false);
   };
@@ -66,7 +59,7 @@ const index = (props) => {
         <View style={styles.topDetail}>
           <TouchableOpacity style={styles.layoutTopBack} onPress={() => backHome()}>
             <Icon style={styles.iconBack} name="chevron-left" size={18} />
-            <Text style={styles.txtTitle}>{prduct.name}</Text>
+            <Text style={styles.txtTitle}>Kết quả của bạn</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => MessageToAdmin(prduct.id)}>
             <Icon name="comment-dots" color="#f070a9" size={24} />

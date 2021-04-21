@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
     marginLeft: 20,
   },
   txtIntro: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: 'bold',
   },
   layoutBtnContinue: {

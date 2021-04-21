@@ -171,9 +171,10 @@ const index = (props) => {
           </TouchableOpacity> */}
           <View style={styles.layoutName}>
             <Text style={styles.txtName}>
-              {dataProfile.lastName ?? 'nguyen'} {dataProfile.firstName ?? 'anh'}
+              {/* {dataProfile.lastName ?? 'nguyen'} {dataProfile.firstName ?? 'anh'} */}
+              Nguyen Anh
             </Text>
-            <Text style={styles.txtId}>ID: #1010{dataProfile.id}</Text>
+            <Text style={styles.txtId}>ID: #101012</Text>
           </View>
         </View>
         {modal && (
