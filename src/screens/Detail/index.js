@@ -177,11 +177,12 @@ const styles = StyleSheet.create({
   },
   imgDetail: {
     position: 'absolute',
-    marginLeft: 150,
+    marginLeft: 180,
     marginTop: 40,
     width: 350,
-    height: 400,
+    height: 350,
     opacity: 0.8,
+    borderRadius: 175,
   },
   layotContain: {
     margin: 30,

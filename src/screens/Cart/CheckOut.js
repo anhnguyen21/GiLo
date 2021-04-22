@@ -14,11 +14,12 @@ const CheckOut = (props) => {
   const onAddAdress = () => {
     pushScreen(props.componentId, 'Map', ' ', ' ', false, 'chevron-left', false);
   };
-  const onPayment = () => {
-    axios
+  const onPayment = async () => {
+    await axios
       .put(`https://damp-woodland-88343.herokuapp.com/api/order/${idUser}`)
       .then(function (response) {
         Navigation.pop(props.componentId);
+        // console.log(response);
       })
       .catch(function (error) {
         console.log(error);

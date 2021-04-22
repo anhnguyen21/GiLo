@@ -85,18 +85,20 @@ const index = (props) => {
       <View style={styles.layoutContent}>
         {!_.isEmpty(data) ? (
           dataCart.map((item, index) => {
-            return (
-              <ItemCart
-                key={index}
-                name={item.name}
-                price={item.price}
-                quantity={item.quantitycart}
-                img={item.img}
-                data={item}
-                onAddProduct={onAddProduct}
-                onDeleteProduct={onDeleteProduct}
-              />
-            );
+            if (item.id_orderStatus === 1) {
+              return (
+                <ItemCart
+                  key={index}
+                  name={item.name}
+                  price={item.price}
+                  quantity={item.quantitycart}
+                  img={item.img}
+                  data={item}
+                  onAddProduct={onAddProduct}
+                  onDeleteProduct={onDeleteProduct}
+                />
+              );
+            }
           })
         ) : (
           <EmptyCart />

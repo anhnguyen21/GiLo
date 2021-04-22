@@ -14,12 +14,10 @@ const _ = require('lodash');
 
 const order = (props) => {
   const [page, setPage] = useState(1);
-  // useEffect(() => {
-  //   dispatch(ProgressActions.getProgresscation(2));
-  // })
+  const dispatch = useDispatch();
   useEffect(() => {
-    const unsubscribe = messaging().onMessage(async remoteMessage => {
-      Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
+    const unsubscribe = messaging().onMessage(async (remoteMessage) => {
+      dispatch(ProgressActions.getProgresscation(7));
     });
 
     return unsubscribe;
@@ -106,14 +104,16 @@ const order = (props) => {
               <View>
                 {!_.isEmpty(data) ? (
                   dataProgress.map((item, index) => {
-                    return (
-                      <ItemListOrder
-                        key={index}
-                        name={item.name}
-                        img={item.img}
-                        price={item.price}
-                      />
-                    );
+                    if (item.id_orderStatus === 1) {
+                      return (
+                        <ItemListOrder
+                          key={index}
+                          name={item.name}
+                          img={item.img}
+                          price={item.price}
+                        />
+                      );
+                    }
                   })
                 ) : (
                   <View style={styles.layoutEmtity}>
@@ -125,14 +125,31 @@ const order = (props) => {
             );
           } else if (page === 2) {
             return (
-              <View style={styles.layoutEmtity}>
-                <Image style={styles.iconEmtity} source={listorder} />
-                <Text style={styles.txtEmtity}>Chưa có sản phẩm</Text>
+              <View>
+                {!_.isEmpty(data) ? (
+                  dataProgress.map((item, index) => {
+                    if (item.id_orderStatus === 2) {
+                      return (
+                        <ItemListOrder
+                          key={index}
+                          name={item.name}
+                          img={item.img}
+                          price={item.price}
+                        />
+                      );
+                    }
+                  })
+                ) : (
+                  <View style={styles.layoutEmtity}>
+                    <Image style={styles.iconEmtity} source={listorder} />
+                    <Text style={styles.txtEmtity}>Chưa có sản phẩm</Text>
+                  </View>
+                )}
               </View>
             );
           } else {
             return (
-              <View ew style={styles.layoutEmtity}>
+              <View style={styles.layoutEmtity}>
                 <Image style={styles.iconEmtity} source={listorder} />
                 <Text style={styles.txtEmtity}>Chưa có sản phẩm</Text>
               </View>

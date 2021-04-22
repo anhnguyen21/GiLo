@@ -52,7 +52,7 @@ const login = (props) => {
       password: '123',
     };
     setAccount(dataLogin);
-    console.log("===========run set state ===================");
+    console.log('===========run set state ===================');
     console.log('account' + account);
     dispatch(LoginActions.userLogin(dataLogin, onSuccess));
     console.log(userInfo);

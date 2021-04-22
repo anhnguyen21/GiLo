@@ -81,16 +81,16 @@ const index = (props) => {
     });
   };
 
-  useEffect(() => {
-    uploadImage();
-    getImage();
-  }, [image]);
+  // useEffect(() => {
+  //   uploadImage();
+  //   getImage();
+  // }, [image]);
 
-  const getImage = async () => {
-    const url = await storage().ref(dataProfile.img).getDownloadURL();
-    console.log(url);
-    return url;
-  };
+  // const getImage = async () => {
+  //   const url = await storage().ref(dataProfile.img).getDownloadURL();
+  //   console.log(url);
+  //   return url;
+  // };
 
   const selectLibrary = async () => {
     const options = {
